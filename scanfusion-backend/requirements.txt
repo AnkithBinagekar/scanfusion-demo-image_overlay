@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+torch
+monai
+nibabel
+numpy
+matplotlib
+pillow
+opencv-python-headless
