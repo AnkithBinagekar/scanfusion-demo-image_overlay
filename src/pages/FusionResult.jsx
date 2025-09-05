@@ -1,100 +1,175 @@
 // src/pages/FusionResult.jsx
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ImageContext } from "../contexts/ImageContext";
 
-const API_BASE = "http://localhost:8000"; // backend base
+const API_BASE = "http://localhost:8000"; // change for EC2 later
 
 function resolveUrl(p) {
   if (!p) return "";
-  if (p.startsWith("http://") || p.startsWith("https://")) {
-    if (p.startsWith("/http://") || p.startsWith("/https://")) {
-      return p.slice(1);
-    }
-    return p;
-  }
+  if (p.startsWith("http://") || p.startsWith("https://")) return p;
   if (p.startsWith("/")) return `${API_BASE}${p}`;
   return `${API_BASE}/${p}`;
 }
 
 const FusionResult = () => {
-  const {
-    inputSlices,
-    outputSlices,
-    overlaySlices,
-    gifUrl,
-    showMode,
-    setShowMode,
-    currentIndex,
-    setCurrentIndex,
-  } = useContext(ImageContext);
+  const { inputSlices = [], outputSlices = [], overlaySlices = [], gifUrl } =
+    useContext(ImageContext);
 
-  // Pick which slices to show depending on mode
-  let slices = [];
-  if (showMode === "input") slices = inputSlices;
-  else if (showMode === "mask") slices = outputSlices;
-  else if (showMode === "overlay") slices = overlaySlices;
+  const [sliceIndex, setSliceIndex] = useState(0);
+  const [viewMode, setViewMode] = useState("single"); // "single" or "compare"
+  const [singleView, setSingleView] = useState("input"); // "input" | "output" | "overlay"
+
+  const maxSlices = Math.max(
+    inputSlices.length,
+    outputSlices.length,
+    overlaySlices.length
+  );
+
+  const getImage = (type) => {
+    if (type === "input" && inputSlices[sliceIndex])
+      return resolveUrl(inputSlices[sliceIndex]);
+    if (type === "output" && outputSlices[sliceIndex])
+      return resolveUrl(outputSlices[sliceIndex]);
+    if (type === "overlay" && overlaySlices[sliceIndex])
+      return resolveUrl(overlaySlices[sliceIndex]);
+    return "";
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <h1 className="text-3xl font-bold text-center mb-6">Fusion Results</h1>
 
-      {/* Mode selection */}
-      <div className="bg-gray-800 p-4 rounded shadow mb-6 flex gap-6 justify-center">
+      {/* Mode toggle */}
+      <div className="flex justify-center mb-6 space-x-6">
         <label>
           <input
             type="radio"
-            name="view"
-            checked={showMode === "input"}
-            onChange={() => setShowMode("input")}
-          />{" "}
-          Input (FLAIR)
+            name="mode"
+            value="single"
+            checked={viewMode === "single"}
+            onChange={() => setViewMode("single")}
+            className="mr-2"
+          />
+          Single View
         </label>
         <label>
           <input
             type="radio"
-            name="view"
-            checked={showMode === "mask"}
-            onChange={() => setShowMode("mask")}
-          />{" "}
-          Segmentation (Color)
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="view"
-            checked={showMode === "overlay"}
-            onChange={() => setShowMode("overlay")}
-          />{" "}
-          Overlay (Input + Mask)
+            name="mode"
+            value="compare"
+            checked={viewMode === "compare"}
+            onChange={() => setViewMode("compare")}
+            className="mr-2"
+          />
+          Side-by-Side Comparison
         </label>
       </div>
 
-      {/* Slice Viewer */}
-      {slices && slices.length > 0 && (
-        <div className="mb-8 bg-gray-800 p-4 rounded shadow text-center">
-          <h2 className="text-xl mb-2 capitalize">{showMode}</h2>
+      {/* Single view mode */}
+      {viewMode === "single" && (
+        <div className="bg-gray-800 p-4 rounded shadow text-center">
+          <div className="mb-4">
+            <label className="mr-4">
+              <input
+                type="radio"
+                name="singleView"
+                value="input"
+                checked={singleView === "input"}
+                onChange={() => setSingleView("input")}
+                className="mr-1"
+              />
+              Input
+            </label>
+            <label className="mr-4">
+              <input
+                type="radio"
+                name="singleView"
+                value="output"
+                checked={singleView === "output"}
+                onChange={() => setSingleView("output")}
+                className="mr-1"
+              />
+              Output
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="singleView"
+                value="overlay"
+                checked={singleView === "overlay"}
+                onChange={() => setSingleView("overlay")}
+                className="mr-1"
+              />
+              Overlay
+            </label>
+          </div>
+
           <img
-            src={resolveUrl(slices[currentIndex])}
-            alt={`${showMode} slice`}
+            src={getImage(singleView)}
+            alt="Slice Preview"
             className="w-full max-w-lg mx-auto rounded shadow"
           />
           <input
             type="range"
             min="0"
-            max={slices.length - 1}
-            value={currentIndex}
-            onChange={(e) => setCurrentIndex(Number(e.target.value))}
+            max={maxSlices - 1}
+            value={sliceIndex}
+            onChange={(e) => setSliceIndex(Number(e.target.value))}
             className="w-full mt-2"
           />
           <p className="text-center mt-1">
-            Slice {currentIndex + 1} / {slices.length}
+            Slice {sliceIndex + 1} / {maxSlices}
           </p>
         </div>
       )}
 
-      {/* GIF Preview */}
+      {/* Comparison view mode */}
+      {viewMode === "compare" && (
+        <div className="bg-gray-800 p-4 rounded shadow">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div className="text-center">
+              <h3 className="mb-2">Input</h3>
+              <img
+                src={getImage("input")}
+                alt="Input Slice"
+                className="w-full rounded shadow"
+              />
+            </div>
+            <div className="text-center">
+              <h3 className="mb-2">Output</h3>
+              <img
+                src={getImage("output")}
+                alt="Output Slice"
+                className="w-full rounded shadow"
+              />
+            </div>
+            <div className="text-center">
+              <h3 className="mb-2">Overlay</h3>
+              <img
+                src={getImage("overlay")}
+                alt="Overlay Slice"
+                className="w-full rounded shadow"
+              />
+            </div>
+          </div>
+
+          <input
+            type="range"
+            min="0"
+            max={maxSlices - 1}
+            value={sliceIndex}
+            onChange={(e) => setSliceIndex(Number(e.target.value))}
+            className="w-full"
+          />
+          <p className="text-center mt-1">
+            Slice {sliceIndex + 1} / {maxSlices}
+          </p>
+        </div>
+      )}
+
+      {/* GIF rendering */}
       {gifUrl && (
-        <div className="bg-gray-800 p-4 rounded shadow text-center">
+        <div className="bg-gray-800 p-4 rounded shadow text-center mt-8">
           <h2 className="text-xl mb-2">Volume Rendering (GIF)</h2>
           <img
             src={resolveUrl(gifUrl)}
