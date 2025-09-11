@@ -2,7 +2,10 @@
 import React, { useContext, useState } from "react";
 import { ImageContext } from "../contexts/ImageContext";
 
-const API_BASE = "http://localhost:8000"; // change for EC2 later
+//const API_BASE = "http://localhost:8000"; // change for EC2 later
+
+//For EC2
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 function resolveUrl(p) {
   if (!p) return "";
