@@ -31,17 +31,17 @@ const FusionOptions = () => {
 
     setIsLoading(true);
     try {
-      const response = await axios.post(`${API_BASE}/process`, formData, {
+      const response = await axios.post(`${API_URL}/process`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       const data = response.data;
 
       // Map to fully qualified URLs
-      const inputUrls = (data.input || []).map((p) => `${API_BASE}/${p}`);
-      const outputUrls = (data.output || []).map((p) => `${API_BASE}/${p}`);
-      const overlayUrls = (data.overlay || []).map((p) => `${API_BASE}/${p}`);
-      const gifUrl = data.gif ? `${API_BASE}/${data.gif}` : null;
+      const inputUrls = (data.input || []).map((p) => `${API_URL}/${p}`);
+      const outputUrls = (data.output || []).map((p) => `${API_URL}/${p}`);
+      const overlayUrls = (data.overlay || []).map((p) => `${API_URL}/${p}`);
+      const gifUrl = data.gif ? `${API_URL}/${data.gif}` : null;
 
       // Save into context
       setInputSlices(inputUrls);

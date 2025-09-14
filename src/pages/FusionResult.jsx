@@ -2,16 +2,16 @@
 import React, { useContext, useState } from "react";
 import { ImageContext } from "../contexts/ImageContext";
 
-//const API_BASE = "http://localhost:8000"; // change for EC2 later
+//const API_URL = "http://localhost:8000"; // change for EC2 later
 
-//For EC2
+//For EC2 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 function resolveUrl(p) {
   if (!p) return "";
   if (p.startsWith("http://") || p.startsWith("https://")) return p;
-  if (p.startsWith("/")) return `${API_BASE}${p}`;
-  return `${API_BASE}/${p}`;
+  if (p.startsWith("/")) return `${API_URL}${p}`;
+  return `${API_URL}/${p}`;
 }
 
 const FusionResult = () => {
@@ -126,7 +126,7 @@ const FusionResult = () => {
         </div>
       )}
 
-      {/* Comparison view mode */}
+      {/* Comparison view mode */}git status
       {viewMode === "compare" && (
         <div className="bg-gray-800 p-4 rounded shadow">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
