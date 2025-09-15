@@ -16,7 +16,8 @@ if (!API_URL) {
 
 function resolveUrl(p) {
   if (!p) return "";
-  if (p.startsWith("http://") || p.startsWith("https://")) return p;
+  //if (p.startsWith("http://") || p.startsWith("https://")) return p;
+  if (p.startsWith("https://")) return p;
   if (p.startsWith("/")) return `${API_URL}${p}`;
   return `${API_URL}/${p}`;
 }

@@ -17,7 +17,9 @@ if (!API_URL) {
 function resolveUrl(p) {
   if (!p) return "";
   const clean = p.trim(); // ✅ remove accidental spaces
-  if (clean.startsWith("http://") || clean.startsWith("https://")) return clean;
+  //if (clean.startsWith("http://") || clean.startsWith("https://")) return clean;
+ if (clean.startsWith("https://")) return clean;
+ 
   if (clean.startsWith("/")) return `${API_URL}${clean}`;
   return `${API_URL}/${clean}`;
 }
@@ -143,7 +145,7 @@ const FusionResult = () => {
         </div>
       )}
 
-      {/* Comparison view mode */}git status
+      {/* Comparison view mode */}
       {viewMode === "compare" && (
         <div className="bg-gray-800 p-4 rounded shadow">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
