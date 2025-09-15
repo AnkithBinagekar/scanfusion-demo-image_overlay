@@ -5,7 +5,14 @@ import { ImageContext } from "../contexts/ImageContext";
 //const API_URL = "http://localhost:8000"; // change for EC2 later
 
 //For EC2 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+//const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+
+
+// Use environment variable only
+const API_URL = process.env.REACT_APP_API_URL;
+if (!API_URL) {
+  console.error("❌ Missing REACT_APP_API_URL! Please set it in Vercel environment variables.");
+}
 
 function resolveUrl(p) {
   if (!p) return "";

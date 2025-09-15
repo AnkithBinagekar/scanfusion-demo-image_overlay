@@ -8,6 +8,14 @@ import { ImageContext } from "../contexts/ImageContext";
 // ✅ Load API base URL from environment for EC2
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
+function resolveUrl(p) {
+  if (!p) return "";
+  if (p.startsWith("http://") || p.startsWith("https://")) return p;
+  if (p.startsWith("/")) return `${API_URL}${p}`;
+  return `${API_URL}/${p}`;
+}
+
+
 const FusionOptions = () => {
   const {
     uploadedFile,
@@ -38,10 +46,16 @@ const FusionOptions = () => {
       const data = response.data;
 
       // Map to fully qualified URLs
-      const inputUrls = (data.input || []).map((p) => `${API_URL}/${p}`);
+      /*const inputUrls = (data.input || []).map((p) => `${API_URL}/${p}`);
       const outputUrls = (data.output || []).map((p) => `${API_URL}/${p}`);
       const overlayUrls = (data.overlay || []).map((p) => `${API_URL}/${p}`);
-      const gifUrl = data.gif ? `${API_URL}/${data.gif}` : null;
+      const gifUrl = data.gif ? `${API_URL}/${data.gif}` : null;*/
+
+      const inputUrls = (data.input || []).map((p) => resolveUrl(p));
+      const outputUrls = (data.output || []).map((p) => resolveUrl(p));
+      const overlayUrls = (data.overlay || []).map((p) => resolveUrl(p));
+      const gifUrl = data.gif ? resolveUrl(data.gif) : null;
+
 
       // Save into context
       setInputSlices(inputUrls);
