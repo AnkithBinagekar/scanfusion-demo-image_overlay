@@ -16,10 +16,12 @@ if (!API_URL) {
 
 function resolveUrl(p) {
   if (!p) return "";
-  if (p.startsWith("http://") || p.startsWith("https://")) return p;
-  if (p.startsWith("/")) return `${API_URL}${p}`;
-  return `${API_URL}/${p}`;
+  const clean = p.trim(); // ✅ remove accidental spaces
+  if (clean.startsWith("http://") || clean.startsWith("https://")) return clean;
+  if (clean.startsWith("/")) return `${API_URL}${clean}`;
+  return `${API_URL}/${clean}`;
 }
+
 
 const FusionResult = () => {
   const { inputSlices = [], outputSlices = [], overlaySlices = [], gifUrl } =
@@ -35,7 +37,7 @@ const FusionResult = () => {
     overlaySlices.length
   );
 
-  const getImage = (type) => {
+  /*const getImage = (type) => {
     if (type === "input" && inputSlices[sliceIndex])
       return resolveUrl(inputSlices[sliceIndex]);
     if (type === "output" && outputSlices[sliceIndex])
@@ -43,6 +45,14 @@ const FusionResult = () => {
     if (type === "overlay" && overlaySlices[sliceIndex])
       return resolveUrl(overlaySlices[sliceIndex]);
     return "";
+  };*/
+
+ const getImage = (type) => {
+    let path = "";
+    if (type === "input" && inputSlices[sliceIndex]) path = inputSlices[sliceIndex];
+    if (type === "output" && outputSlices[sliceIndex]) path = outputSlices[sliceIndex];
+    if (type === "overlay" && overlaySlices[sliceIndex]) path = overlaySlices[sliceIndex];
+    return resolveUrl(path);
   };
 
   return (
