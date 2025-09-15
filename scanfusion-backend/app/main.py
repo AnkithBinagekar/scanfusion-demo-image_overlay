@@ -21,7 +21,11 @@ MODEL_PATH = "app/model.pt"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(STATIC_DIR, exist_ok=True)
 
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+#app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+
+# ✅ Mount static folder
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 @app.post("/process")
 async def process_file(file: UploadFile = File(...)):

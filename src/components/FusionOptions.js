@@ -51,10 +51,16 @@ const FusionOptions = () => {
       const overlayUrls = (data.overlay || []).map((p) => `${API_URL}/${p}`);
       const gifUrl = data.gif ? `${API_URL}/${data.gif}` : null;*/
 
-      const inputUrls = (data.input || []).map((p) => resolveUrl(p));
+      /*const inputUrls = (data.input || []).map((p) => resolveUrl(p));
       const outputUrls = (data.output || []).map((p) => resolveUrl(p));
       const overlayUrls = (data.overlay || []).map((p) => resolveUrl(p));
-      const gifUrl = data.gif ? resolveUrl(data.gif) : null;
+      const gifUrl = data.gif ? resolveUrl(data.gif) : null;*/
+
+      // ✅ CORRECT (just store raw paths, resolve later)
+      const inputUrls = data.input || [];
+      const outputUrls = data.output || [];
+      const overlayUrls = data.overlay || [];
+      const gifUrl = data.gif || null;
 
 
       // Save into context
