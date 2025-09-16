@@ -9,12 +9,14 @@ import { ImageContext } from "../contexts/ImageContext";
 
 
 // Use environment variable only
-const API_URL = process.env.REACT_APP_API_URL;
-if (!API_URL) {
-  console.error("❌ Missing REACT_APP_API_URL! Please set it in Vercel environment variables.");
-}
+const API_URL = process.env.REACT_APP_API_URL || "kindlessly-interannular-jadiel.ngrok-free.app";
+console.log("🌐 Using API URL:", API_URL);
+/*if (!API_URL) {
+  //console.error("❌ Missing REACT_APP_API_URL! Please set it in Vercel environment variables.");
+console.error("❌ Missing REACT_APP_API_URL! Go to Vercel → Project → Settings → Environment Variables and add it (value = your ngrok https URL)");
+}*/
 
-function resolveUrl(p) {
+/*function resolveUrl(p) {
   if (!p) return "";
   const clean = p.trim(); // ✅ remove accidental spaces
   //if (clean.startsWith("http://") || clean.startsWith("https://")) return clean;
@@ -22,6 +24,13 @@ function resolveUrl(p) {
  
   if (clean.startsWith("/")) return `${API_URL}${clean}`;
   return `${API_URL}/${clean}`;
+}*/
+
+function resolveUrl(p) {
+  if (!p) return "";
+  if (p.startsWith("http://") || p.startsWith("https://")) return p;
+  if (p.startsWith("/")) return `${API_URL}${p}`;
+  return `${API_URL}/${p}`;
 }
 
 
