@@ -6,6 +6,14 @@ from app.processor import run_segmentation
 
 app = FastAPI()
 
+
+origins = [
+    "https://scanfusion-demo-image-overlay.vercel.app",  # ✅ Your Vercel frontend
+    "https://kindlessly-interannular-jadiel.ngrok-free.app",  # ✅ Your ngrok domain
+    #"http://localhost:3000",  # (Optional) local dev
+]
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
