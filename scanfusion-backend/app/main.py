@@ -42,11 +42,12 @@ async def process_file(file: UploadFile = File(...)):
         print(f"Processed {len(input_slices)} input, {len(output_slices)} output, {len(overlay_slices)} overlay slices")
 
         return {
-            "input": [f"static/{os.path.basename(p)}" for p in input_slices],
-            "output": [f"static/{os.path.basename(p)}" for p in output_slices],
-            "overlay": [f"static/{os.path.basename(p)}" for p in overlay_slices],
-            "gif": gif_url,
-        }
+        "input": [f"static/{os.path.basename(p)}" for p in input_slices],
+        "output": [f"static/{os.path.basename(p)}" for p in output_slices],
+        "overlay": [f"static/{os.path.basename(p)}" for p in overlay_slices],
+        "gif": f"static/{os.path.basename(gif_url)}" if gif_url else None,
+    }
+
 
     except Exception as e:
         print("Segmentation Error:", e)
