@@ -4,6 +4,9 @@ from fastapi.staticfiles import StaticFiles
 import os
 from app.processor import run_segmentation
 
+# ✅ Add your ngrok URL here
+NGROK_URL = "https://kindlessly-interannular-jadiel.ngrok-free.app"
+
 app = FastAPI()
 
 
@@ -49,12 +52,13 @@ async def process_file(file: UploadFile = File(...)):
         )
         print(f"Processed {len(input_slices)} input, {len(output_slices)} output, {len(overlay_slices)} overlay slices")
 
+        # ✅ Build full URLs dynamically for all slices
         return {
-        "input": [f"static/{os.path.basename(p)}" for p in input_slices],
-        "output": [f"static/{os.path.basename(p)}" for p in output_slices],
-        "overlay": [f"static/{os.path.basename(p)}" for p in overlay_slices],
-        "gif": f"static/{os.path.basename(gif_url)}" if gif_url else None,
-    }
+            "input": [f"{NGROK_URL}/static/{os.path.basename(p)}" for p in input_slices],
+            "output": [f"{NGROK_URL}/static/{os.path.basename(p)}" for p in output_slices],
+            "overlay": [f"{NGROK_URL}/static/{os.path.basename(p)}" for p in overlay_slices],
+            "gif": f"{NGROK_URL}/static/{os.path.basename(gif_url)}" if gif_url else None,
+        }
 
 
     except Exception as e:

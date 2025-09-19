@@ -58,13 +58,21 @@ const FusionResult = () => {
     return "";
   };*/
 
- const getImage = (type) => {
+ /*const getImage = (type) => {
     let path = "";
     if (type === "input" && inputSlices[sliceIndex]) path = inputSlices[sliceIndex];
     if (type === "output" && outputSlices[sliceIndex]) path = outputSlices[sliceIndex];
     if (type === "overlay" && overlaySlices[sliceIndex]) path = overlaySlices[sliceIndex];
     return resolveUrl(path);
-  };
+  };*/
+
+const getImage = (type) => {
+  if (type === "input" && inputSlices[sliceIndex]) return inputSlices[sliceIndex];
+  if (type === "output" && outputSlices[sliceIndex]) return outputSlices[sliceIndex];
+  if (type === "overlay" && overlaySlices[sliceIndex]) return overlaySlices[sliceIndex];
+  return "";
+};
+
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
