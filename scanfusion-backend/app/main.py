@@ -4,16 +4,18 @@ from fastapi.staticfiles import StaticFiles
 import os
 from app.processor import run_segmentation
 
-# ✅ Add your ngrok URL here
-NGROK_URL = "https://kindlessly-interannular-jadiel.ngrok-free.app"
 
+# ✅ Add your ngrok URL here
+#NGROK_URL = "https://kindlessly-interannular-jadiel.ngrok-free.app"
+NGROK_URL = "http://65.0.52.250:8000"
 app = FastAPI()
 
 
 origins = [
     "https://scanfusion-demo-image-overlay.vercel.app",  # ✅ Your Vercel frontend
-    "https://kindlessly-interannular-jadiel.ngrok-free.app",  # ✅ Your ngrok domain
+   # "https://kindlessly-interannular-jadiel.ngrok-free.app",  # ✅ Your ngrok domain
     #"http://localhost:3000",  # (Optional) local dev
+"http://65.0.52.250:8000"
 ]
 
 
@@ -33,10 +35,22 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(STATIC_DIR, exist_ok=True)
 
 #app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+class CustomStaticFiles(StaticFiles):
+    async def get_response(self, path, scope):
+        response = await super().get_response(path, scope)
+
+
+
+        # Add explicit CORS headers for images/static assets
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        return response
 
 
 # ✅ Mount static folder
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+#app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+# ✅ Mount static folder with custom class
+app.mount("/static", CustomStaticFiles(directory=STATIC_DIR), name="static")
 
 @app.post("/process")
 async def process_file(file: UploadFile = File(...)):

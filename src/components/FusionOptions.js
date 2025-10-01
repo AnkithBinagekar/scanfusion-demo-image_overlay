@@ -6,7 +6,8 @@ import { ImageContext } from "../contexts/ImageContext";
 //const API_BASE = "http://localhost:8000";
 
 
-const API_URL = process.env.REACT_APP_API_URL || "https://kindlessly-interannular-jadiel.ngrok-free.app";
+//const API_URL = process.env.REACT_APP_API_URL || "https://kindlessly-interannular-jadiel.ngrok-free.app";
+const API_URL = process.env.REACT_APP_API_URL || "https://65.0.52.250";
 console.log("🌐 Using API URL:", API_URL);
 // ✅ Load API base URL from environment for EC2
  // const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
