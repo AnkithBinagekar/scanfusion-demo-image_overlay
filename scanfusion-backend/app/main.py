@@ -7,7 +7,7 @@ from app.processor import run_segmentation
 
 # ✅ Add your ngrok URL here
 #NGROK_URL = "https://kindlessly-interannular-jadiel.ngrok-free.app"
-NGROK_URL = "http://65.0.52.250:8000"
+NGROK_URL = "https://dr21q9cdjk.execute-api.ap-south-1.amazonaws.com/"
 app = FastAPI()
 
 
@@ -15,7 +15,7 @@ origins = [
     "https://scanfusion-demo-image-overlay.vercel.app",  # ✅ Your Vercel frontend
    # "https://kindlessly-interannular-jadiel.ngrok-free.app",  # ✅ Your ngrok domain
     #"http://localhost:3000",  # (Optional) local dev
-"http://65.0.52.250:8000"
+"https://dr21q9cdjk.execute-api.ap-south-1.amazonaws.com/"
 ]
 
 
