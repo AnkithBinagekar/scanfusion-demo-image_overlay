@@ -91,10 +91,10 @@ const FusionOptions = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-4 text-white">Fusion Options</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-white">Segmentation Options</h2>
 
       <div className="mb-4 text-gray-200">
-        <label className="block mb-2">Fusion Type</label>
+        <label className="block mb-2">Segmentation Type</label>
         <label className="block">
           <input type="radio" name="fusion" defaultChecked /> MRI + CT
         </label>
