@@ -10,7 +10,7 @@ import { ImageContext } from "../contexts/ImageContext";
 
 // Use environment variable only
 //const API_URL = process.env.REACT_APP_API_URL || "https://kindlessly-interannular-jadiel.ngrok-free.app";
-const API_URL = process.env.REACT_APP_API_URL || "https://dr21q9cdjk.execute-api.ap-south-1.amazonaws.com/deploy1";
+const API_URL = process.env.REACT_APP_API_URL || "https://r93u45uwjc.execute-api.ap-south-1.amazonaws.com/";
 console.log("🌐 Using API URL:", API_URL);
 /*if (!API_URL) {
   //console.error("❌ Missing REACT_APP_API_URL! Please set it in Vercel environment variables.");
