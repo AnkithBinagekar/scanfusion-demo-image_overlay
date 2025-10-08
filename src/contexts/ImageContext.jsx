@@ -12,6 +12,15 @@ export const ImageProvider = ({ children }) => {
   const [showMode, setShowMode] = useState("input"); // input | mask | overlay
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // ✅ Helper: set all processed images at once (for demo or upload)
+  const setProcessedImages = (data) => {
+    if (!data) return;
+    setInputSlices(data.input || []);
+    setOutputSlices(data.output || []);
+    setOverlaySlices(data.overlay || []);
+    setGifUrl(data.gif || null);
+  };
+
   return (
     <ImageContext.Provider
       value={{
@@ -29,6 +38,7 @@ export const ImageProvider = ({ children }) => {
         setShowMode,
         currentIndex,
         setCurrentIndex,
+        setProcessedImages, // ✅ expose helper to other components
       }}
     >
       {children}
