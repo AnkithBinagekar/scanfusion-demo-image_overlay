@@ -13,7 +13,7 @@ Segmentation-Demo demonstrates a complete **end-to-end AI medical imaging pipeli
 
 | Layer | Technology | Purpose |
 |--------|-------------|----------|
-| **Frontend** | React + TailwindCSS (deployed on [Vercel]([https://vercel.com](https://scanfusion-demo-image-overlay.vercel.app/))) | User interface for uploads, options, and result previews |
+| **Frontend** | React + TailwindCSS (deployed on [Vercel]([https://vercel.com](https://scanfusion-demo-image-overlay.vercel.app/) | User interface for uploads, options, and result previews |
 | **Backend** | FastAPI + MONAI (hosted on AWS EC2) | Handles uploads, runs segmentation using SegResNet |
 | **Model** | MONAI SegResNet (3D brain tumor segmentation) | Performs medical image inference |
 | **Networking** | AWS Elastic IP + API Gateway (HTTPS) | Ensures secure and stable frontend-backend communication |
