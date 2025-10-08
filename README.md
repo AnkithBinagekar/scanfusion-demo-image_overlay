@@ -5,11 +5,11 @@ It allows users to upload `.nii.gz` MRI brain scans (or run a sample demo) and v
 
 ---
 
-## 🚀 Project Overview
+##  Project Overview
 
 Segmentation-Demo demonstrates a complete **end-to-end AI medical imaging pipeline**, combining a modern web UI with deep learning inference on the backend.
 
-### 🧩 Tech Stack
+###  Tech Stack
 
 | Layer | Technology | Purpose |
 |--------|-------------|----------|
@@ -20,19 +20,19 @@ Segmentation-Demo demonstrates a complete **end-to-end AI medical imaging pipeli
 
 ---
 
-## 🖥️ Features
+##  Features
 
-✅ Upload `.nii.gz` medical image files  
-✅ Trigger segmentation and view 2D slice previews  
-✅ Toggle between input, output, and overlay modes  
-✅ Run a built-in **sample demo** without uploading a file  
-✅ React Context for state persistence between pages  
-✅ FastAPI backend for processing and static image serving  
-✅ Secure HTTPS connection via AWS API Gateway
+ Upload `.nii.gz` medical image files  
+ Trigger segmentation and view 2D slice previews  
+ Toggle between input, output, and overlay modes  
+ Run a built-in **sample demo** without uploading a file  
+ React Context for state persistence between pages  
+ FastAPI backend for processing and static image serving  
+ Secure HTTPS connection via AWS API Gateway
 
 ---
 
-## ⚙️ Folder Structure
+##  Folder Structure
 scanfusion-demo/
 ├── scanfusion-frontend/ # React (Vercel)
 │ ├── src/
