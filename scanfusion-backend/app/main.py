@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
@@ -29,10 +29,12 @@ app.add_middleware(
 
 UPLOAD_DIR = "app/uploads"
 STATIC_DIR = "app/static"
+SAMPLE_DIR = "app/sample_data"  #sample demo data
 MODEL_PATH = "app/model.pt"
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(STATIC_DIR, exist_ok=True)
+os.makedirs(SAMPLE_DIR, exist_ok=True)
 
 #app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 class CustomStaticFiles(StaticFiles):
@@ -52,19 +54,61 @@ class CustomStaticFiles(StaticFiles):
 # ✅ Mount static folder with custom class
 app.mount("/static", CustomStaticFiles(directory=STATIC_DIR), name="static")
 
+
+# Without sample demo 
+#@app.post("/process")
+#async def process_file(file: UploadFile = File(...)):
+ #   file_location = os.path.join(UPLOAD_DIR, file.filename)
+  #  with open(file_location, "wb") as f:
+   #     f.write(await file.read())
+
+    #print(f"Received file: {file_location}")
+
+    #try:
+     #   input_slices, output_slices, overlay_slices, gif_url = run_segmentation(
+      #      file_location, MODEL_PATH, STATIC_DIR
+       # )
+        #print(f"Processed {len(input_slices)} input, {len(output_slices)} output, {len(overlay_slices)} overlay slices")
+
+
+# For sample demo along with original upload logic
 @app.post("/process")
-async def process_file(file: UploadFile = File(...)):
-    file_location = os.path.join(UPLOAD_DIR, file.filename)
-    with open(file_location, "wb") as f:
-        f.write(await file.read())
-
-    print(f"Received file: {file_location}")
-
+async def process_file(
+    file: UploadFile = File(None),
+    demo: bool = Query(False)
+):
+    """
+    Processes either:
+    - An uploaded file (default)
+    - A built-in sample if `demo=true` query param is passed
+    """
     try:
-        input_slices, output_slices, overlay_slices, gif_url = run_segmentation(
-            file_location, MODEL_PATH, STATIC_DIR
-        )
-        print(f"Processed {len(input_slices)} input, {len(output_slices)} output, {len(overlay_slices)} overlay slices")
+        # 🧠 DEMO MODE
+        if demo:
+            sample_path = os.path.join(SAMPLE_DIR, "UCSF-PDGM-0007_FLAIR.nii.gz")
+            if not os.path.exists(sample_path):
+                return {"error": "Sample demo file not found on server."}
+
+            print("⚙️ Running in DEMO mode using:", sample_path)
+            input_slices, output_slices, overlay_slices, gif_url = run_segmentation(
+                sample_path, MODEL_PATH, STATIC_DIR
+            )
+
+        # 🧠 UPLOAD MODE (your original logic)
+        else:
+            if file is None:
+                return {"error": "No file uploaded."}
+
+            file_location = os.path.join(UPLOAD_DIR, file.filename)
+            with open(file_location, "wb") as f:
+                f.write(await file.read())
+
+            print(f"✅ Received file: {file_location}")
+            input_slices, output_slices, overlay_slices, gif_url = run_segmentation(
+                file_location, MODEL_PATH, STATIC_DIR
+            )
+
+
 
         # ✅ Build full URLs dynamically for all slices
         return {
