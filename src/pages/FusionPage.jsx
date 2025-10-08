@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import UploadSection from "../components/UploadSection";
 import FusionOptions from "../components/FusionOptions";
 import SliceViewer from "../components/SliceViewer";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ImageContext } from "../context/ImageContext"; // ✅ make sure this path matches your project
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 const FusionPage = () => {
+  const navigate = useNavigate();
+  const { setProcessedImages } = useContext(ImageContext);
+
   // Function to trigger demo mode
   const handleRunDemo = async () => {
     try {
@@ -16,9 +21,15 @@ const FusionPage = () => {
 
       if (response.data.error) {
         alert("❌ " + response.data.error);
-      } else {
-        alert("✅ Demo completed successfully! Check the results page or console.");
+        return;
       }
+
+      // ✅ Save demo result in global context
+      setProcessedImages(response.data);
+
+      alert("✅ Demo completed successfully!");
+      navigate("/results"); // ✅ Go to results page automatically
+
     } catch (error) {
       console.error("❌ Demo run failed:", error);
       alert("Demo failed. Check the console for more details.");
