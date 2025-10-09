@@ -116,7 +116,7 @@ const FusionOptions = () => {
         <label>
           <input type="checkbox" className="mr-2" /> Enhance Contrast
         </label>
-      </div>*/
+      </div>
 
       <button
         onClick={handleFusion}
@@ -124,8 +124,21 @@ const FusionOptions = () => {
         disabled={isLoading}
       >
         {isLoading ? "Segmenting..." : "Segment Images"}
-      </button>
+      </button>*/
     //</div>
+
+  <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
+      <button
+        onClick={handleFusion}
+        className={`${
+          isLoading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
+        } text-white px-8 py-3 rounded-lg font-semibold transition w-3/4`}
+        disabled={isLoading}
+      >
+        {isLoading ? "Segmenting..." : "Segment Images"}
+      </button>
+    </div>
+
   );
 };
 
