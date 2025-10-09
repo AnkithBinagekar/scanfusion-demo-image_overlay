@@ -6,14 +6,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ImageContext } from "../contexts/ImageContext"; // ✅ make sure this path matches your project
 
-
 const API_URL = process.env.REACT_APP_API_URL;
 
 const FusionPage = () => {
   const navigate = useNavigate();
   const { setProcessedImages } = useContext(ImageContext);
 
-  // Function to trigger demo mode
+  // ✅ Run Sample Demo
   const handleRunDemo = async () => {
     try {
       alert("⚙️ Running sample demo... This may take a few seconds.");
@@ -29,8 +28,7 @@ const FusionPage = () => {
       setProcessedImages(response.data);
 
       alert("✅ Demo completed successfully!");
-      navigate("/results"); // ✅ Go to results page automatically
-
+      navigate("/results");
     } catch (error) {
       console.error("❌ Demo run failed:", error);
       alert("Demo failed. Check the console for more details.");
@@ -39,30 +37,33 @@ const FusionPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-4xl font-bold text-center mb-6 text-white">
+      {/* Page Title */}
+      <h1 className="text-4xl font-bold text-center mb-8 text-white">
         Segmentation-Demo
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Left Column: Upload */}
-        <div className="bg-gray-800 p-4 rounded shadow-md">
+      {/* ✅ Two-column layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Left Column: Upload + Buttons */}
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between">
           <UploadSection />
-          {/* Added Demo Button */}
-          <button
-            onClick={handleRunDemo}
-            className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
-          >
-            Run Sample Demo
-          </button>
+
+          {/* Buttons section */}
+          <div className="mt-6 space-y-4">
+            <button
+              onClick={handleRunDemo}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition"
+            >
+              Run Sample Demo
+            </button>
+
+            {/* Keep FusionOptions here (only Segment Images button is active now) */}
+            <FusionOptions />
+          </div>
         </div>
 
-        {/* Middle Column: Options */}
-        <div className="bg-gray-800 p-4 rounded shadow-md">
-          <FusionOptions />
-        </div>
-
-        {/* Right Column: Real-time Slice Viewer */}
-        <div className="bg-gray-800 p-4 rounded shadow-md">
+        {/* Right Column: Slice Viewer */}
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md">
           <SliceViewer />
         </div>
       </div>
