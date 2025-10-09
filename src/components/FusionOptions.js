@@ -90,7 +90,7 @@ const FusionOptions = () => {
   };
 
   return (
-    <div>
+    /*<div>
       <h2 className="text-2xl font-semibold mb-4 text-white">Segmentation Options</h2>
 
       <div className="mb-4 text-gray-200">
@@ -116,7 +116,7 @@ const FusionOptions = () => {
         <label>
           <input type="checkbox" className="mr-2" /> Enhance Contrast
         </label>
-      </div>
+      </div>*/
 
       <button
         onClick={handleFusion}
@@ -125,7 +125,7 @@ const FusionOptions = () => {
       >
         {isLoading ? "Segmenting..." : "Segment Images"}
       </button>
-    </div>
+    //</div>
   );
 };
 
