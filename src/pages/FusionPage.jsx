@@ -4,7 +4,7 @@ import FusionOptions from "../components/FusionOptions";
 import SliceViewer from "../components/SliceViewer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ImageContext } from "../contexts/ImageContext"; // ✅ make sure this path matches your project
+import { ImageContext } from "../contexts/ImageContext";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -36,28 +36,20 @@ const FusionPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      {/* Page Title */}
+    <div className="min-h-screen bg-gray-900 text-white p-6 flex flex-col items-center">
+      {/* Title */}
       <h1 className="text-4xl font-bold text-center mb-8 text-white">
         Segmentation-Demo
       </h1>
 
-      {/* ✅ Two-column layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Left Column: Upload + Buttons */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between">
+      {/* ✅ Two-column main layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
+        {/* Left Column: Upload + Segment */}
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-start">
           <UploadSection />
 
-          {/* Buttons section */}
-          <div className="mt-6 space-y-4">
-            <button
-              onClick={handleRunDemo}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition"
-            >
-              Run Sample Demo
-            </button>
-
-            {/* Keep FusionOptions here (only Segment Images button is active now) */}
+          {/* Slight spacing fix for the Segment Images button */}
+          <div className="mt-6">
             <FusionOptions />
           </div>
         </div>
@@ -66,6 +58,16 @@ const FusionPage = () => {
         <div className="bg-gray-800 p-6 rounded-lg shadow-md">
           <SliceViewer />
         </div>
+      </div>
+
+      {/* ✅ Run Sample Demo button centered below both boxes */}
+      <div className="mt-8 w-full flex justify-center">
+        <button
+          onClick={handleRunDemo}
+          className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-10 rounded-lg font-semibold transition"
+        >
+          Run Sample Demo
+        </button>
       </div>
     </div>
   );
