@@ -84,7 +84,7 @@ const FusionOptions = () => {
     } catch (error) {
       console.error("Fusion error:", error);
      // Check if error has a message property and use it, otherwise use the error object itself.
-     const errorMessage = error.message ? error.message : error;
+     const errorMessage = String(error) //error.message ? error.message : error;
      alert("Fusion failed. Check console or backend logs. Details: " + errorMessage);
     } finally {
       setIsLoading(false);
