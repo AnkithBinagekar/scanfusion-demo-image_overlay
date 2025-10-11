@@ -78,9 +78,9 @@ const FusionPage = () => {
           onChange={(e) => setSelectedDemo(e.target.value)}
           className="p-2 mb-4 w-full rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="UCSF-PDGM">🧠 UCSF-PDGM Dataset</option>
-          <option value="Yale">🏥 Yale Dataset</option>
-          <option value="Lumiere">💡 Lumiere Dataset</option>
+          <option value="UCSF-PDGM"> UCSF-PDGM Dataset</option>
+          <option value="Yale"> Yale Dataset</option>
+          <option value="Lumiere"> Lumiere Dataset</option>
         </select>
 
         {/* Run Demo Button */}
