@@ -52,6 +52,7 @@ const FusionOptions = () => {
     try {
       const response = await axios.post(`${API_URL}/process`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
+          timeout: 300000, // 60 seconds
       });
 
       const data = response.data;
