@@ -11,14 +11,19 @@ const API_URL = process.env.REACT_APP_API_URL;
 const FusionPage = () => {
   const navigate = useNavigate();
   const { setProcessedImages } = useContext(ImageContext);
-  const [isDemoLoading, setIsDemoLoading] = useState(false); // ✅ track loading
+  const [isDemoLoading, setIsDemoLoading] = useState(false);
+  const [selectedDemo, setSelectedDemo] = useState("UCSF-PDGM"); // default option
 
   // ✅ Run Sample Demo
   const handleRunDemo = async () => {
     try {
-      setIsDemoLoading(true); // show loader
-      console.log("⚙️ Running sample demo...");
-      const response = await axios.post(`${API_URL}/process?demo=true`);
+      setIsDemoLoading(true);
+      console.log(`⚙️ Running sample demo: ${selectedDemo}...`);
+
+      const response = await axios.post(`${API_URL}/process`, null, {
+        params: { demo_sample: selectedDemo },
+      });
+
       console.log("Demo output:", response.data);
 
       if (response.data.error) {
@@ -29,13 +34,13 @@ const FusionPage = () => {
 
       // ✅ Save demo result in global context
       setProcessedImages(response.data);
-      setIsDemoLoading(false);
-      alert("✅ Demo completed successfully!");
+      alert(`✅ ${selectedDemo} demo completed successfully!`);
       navigate("/results");
     } catch (error) {
       console.error("❌ Demo run failed:", error);
+      alert("Demo failed. Check console for details.");
+    } finally {
       setIsDemoLoading(false);
-      alert("Demo failed. Check console for more details.");
     }
   };
 
@@ -52,7 +57,6 @@ const FusionPage = () => {
         <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-start">
           <UploadSection />
 
-          {/* Slight spacing fix for the Segment Images button */}
           <div className="mt-6">
             <FusionOptions />
           </div>
@@ -64,14 +68,30 @@ const FusionPage = () => {
         </div>
       </div>
 
-      {/* ✅ Run Sample Demo section */}
-      <div className="mt-8 w-full flex flex-col items-center">
+      {/* ✅ Run Sample Demo Section */}
+      <div className="mt-10 w-full max-w-md bg-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center">
+        <h2 className="text-lg font-semibold mb-4">Run Sample Demo</h2>
+
+        {/* Dataset Selector */}
+        <select
+          value={selectedDemo}
+          onChange={(e) => setSelectedDemo(e.target.value)}
+          className="p-2 mb-4 w-full rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="UCSF-PDGM">🧠 UCSF-PDGM Dataset</option>
+          <option value="Yale">🏥 Yale Dataset</option>
+          <option value="Lumiere">💡 Lumiere Dataset</option>
+        </select>
+
+        {/* Run Demo Button */}
         <button
           onClick={handleRunDemo}
           disabled={isDemoLoading}
           className={`${
-            isDemoLoading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-          } text-white py-3 px-10 rounded-lg font-semibold transition flex items-center gap-3`}
+            isDemoLoading
+              ? "bg-blue-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700"
+          } text-white py-3 px-8 rounded-lg font-semibold transition flex items-center gap-3 w-full justify-center`}
         >
           {isDemoLoading ? (
             <>
@@ -95,14 +115,14 @@ const FusionPage = () => {
                   d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
                 ></path>
               </svg>
-              Running Sample Demo...
+              Running {selectedDemo} Demo...
             </>
           ) : (
-            "Run Sample Demo"
+            `Run ${selectedDemo} Demo`
           )}
         </button>
 
-        {/* ✅ Optional subtle loading bar */}
+        {/* Loading Bar */}
         {isDemoLoading && (
           <div className="mt-4 w-2/3 bg-gray-700 rounded-full h-2 overflow-hidden">
             <div className="bg-blue-500 h-2 animate-pulse w-full"></div>
@@ -114,4 +134,3 @@ const FusionPage = () => {
 };
 
 export default FusionPage;
-

@@ -75,24 +75,35 @@ app.mount("/static", CustomStaticFiles(directory=STATIC_DIR), name="static")
 @app.post("/process")
 async def process_file(
     file: UploadFile = File(None),
-    demo: bool = Query(False)
+    demo_sample: str = None,
 ):
     """
     Processes either:
     - An uploaded file (default)
     - A built-in sample if `demo=true` query param is passed
     """
+    # demo_sample can take any of these values :  "UCSF-PDGM" , "Yale" ,  "Lumiere"
+    sample_demo_filepath  = {
+        "UCSF-PDGM": os.path.join(SAMPLE_DIR, "UCSF-PDGM-0007_FLAIR.nii.gz"),
+        "Yale" : os.path.join(SAMPLE_DIR, "YG_B3X1KYYFD63K_2013-09-19_17-59-36_FLAIR.nii.gz"),
+        "Lumiere" : os.path.join(SAMPLE_DIR, "flair_skull_strip.nii.gz")
+    }
     try:
         # 🧠 DEMO MODE
-        if demo:
-            sample_path = os.path.join(SAMPLE_DIR, "UCSF-PDGM-0007_FLAIR.nii.gz")
-            if not os.path.exists(sample_path):
-                return {"error": "Sample demo file not found on server."}
+        if demo_sample:
+            demo_sample = demo_sample.strip()
+            if demo_sample not in sample_demo_filepath:
+                return {"error": f"Invalid sample name '{demo_sample}'."}
 
-            print("⚙️ Running in DEMO mode using:", sample_path)
+            sample_path = sample_demo_filepath[demo_sample]
+            if not os.path.exists(sample_path):
+                return {"error": f"Sample file for {demo_sample} not found on server."}
+
+            print(f"⚙️ Running DEMO for dataset: {demo_sample}")
             input_slices, output_slices, overlay_slices, gif_url = run_segmentation(
                 sample_path, MODEL_PATH, STATIC_DIR
             )
+
 
         # 🧠 UPLOAD MODE (your original logic)
         else:
