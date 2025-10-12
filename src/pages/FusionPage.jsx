@@ -143,7 +143,7 @@ const FusionPage = () => {
           <div className="flex-1 flex flex-col items-center justify-center overflow-hidden px-2">
             <div className="w-full flex justify-center items-center overflow-hidden">
               <div className="max-w-full max-h-full flex justify-center items-center">
-                <SliceViewer />
+               
               </div>
             </div>
           </div>
