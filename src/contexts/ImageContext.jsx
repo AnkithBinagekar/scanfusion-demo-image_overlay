@@ -7,7 +7,7 @@ export const ImageProvider = ({ children }) => {
   const [inputSlices, setInputSlices] = useState([]);
   const [outputSlices, setOutputSlices] = useState([]);
   const [overlaySlices, setOverlaySlices] = useState([]);
-  const [gifUrl, setGifUrl] = useState(null);
+  //const [gifUrl, setGifUrl] = useState(null);
 
   const [showMode, setShowMode] = useState("input"); // input | mask | overlay
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -18,7 +18,7 @@ export const ImageProvider = ({ children }) => {
     setInputSlices(data.input || []);
     setOutputSlices(data.output || []);
     setOverlaySlices(data.overlay || []);
-    setGifUrl(data.gif || null);
+    //setGifUrl(data.gif || null);
   };
 
   return (
@@ -32,8 +32,8 @@ export const ImageProvider = ({ children }) => {
         setOutputSlices,
         overlaySlices,
         setOverlaySlices,
-        gifUrl,
-        setGifUrl,
+        //gifUrl,
+       // setGifUrl,
         showMode,
         setShowMode,
         currentIndex,
