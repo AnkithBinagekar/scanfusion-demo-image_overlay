@@ -136,7 +136,7 @@ const FusionPage = () => {
         >
           {/* Header */}
           <h2 className="text-lg font-semibold mb-3 text-center">
-           
+            Slice Viewer
           </h2>
 
           {/* Image Viewer Area */}

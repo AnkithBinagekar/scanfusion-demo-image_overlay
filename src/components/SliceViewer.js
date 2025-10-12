@@ -28,8 +28,7 @@ const SliceViewer = () => {
 
   return (
     <div className="flex flex-col h-full w-full text-white overflow-hidden">
-      <h2 className="text-2xl font-semibold mb-3 text-center">Slice Viewer</h2>
-
+     
       {slicesToShow.length === 0 ? (
         <div className="text-gray-400 text-center mt-8">
           No slices to preview yet.
