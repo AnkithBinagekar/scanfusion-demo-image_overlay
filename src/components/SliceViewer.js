@@ -79,7 +79,8 @@ const SliceViewer = () => {
             <img
               src={resolveUrl(slicesToShow[currentIndex])}
               alt="Slice Preview"
-              className="max-w-full max-h-[75vh] object-contain rounded shadow"
+              //className="max-w-full max-h-[75vh] object-contain rounded shadow"
+              className="w-full max-w-md mx-auto mb-4 rounded shadow"
             />
           </div>
 
