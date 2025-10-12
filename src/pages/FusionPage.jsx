@@ -53,7 +53,7 @@ const FusionPage = () => {
         {/* LEFT SIDE — two stacked cards */}
         <div className="flex flex-col gap-6">
           {/* 🧠 Run Sample Demo */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between min-h-[220px] sm:min-h-[240px] md:min-h-[250px]">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between min-h-[260px] sm:min-h-[280px] md:min-h-[290px]">
             <h2 className="text-lg font-semibold mb-3 text-center">
               Run Sample Demo
             </h2>
@@ -63,9 +63,9 @@ const FusionPage = () => {
               onChange={(e) => setSelectedDemo(e.target.value)}
               className="p-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
             >
-              <option value="UCSF-PDGM">🧠 UCSF-PDGM Dataset</option>
-              <option value="Yale">🏥 Yale Dataset</option>
-              <option value="Lumiere">💡 Lumiere Dataset</option>
+              <option value="UCSF-PDGM"> UCSF-PDGM Dataset</option>
+              <option value="Yale"> Yale Dataset</option>
+              <option value="Lumiere"> Lumiere Dataset</option>
             </select>
 
             <button
