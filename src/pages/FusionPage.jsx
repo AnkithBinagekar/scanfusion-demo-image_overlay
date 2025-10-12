@@ -18,8 +18,6 @@ const FusionPage = () => {
   const handleRunDemo = async () => {
     try {
       setIsDemoLoading(true);
-      console.log(`⚙️ Running sample demo: ${selectedDemo}...`);
-
       const response = await axios.post(`${API_URL}/process`, null, {
         params: { demo_sample: selectedDemo },
       });
@@ -43,14 +41,15 @@ const FusionPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6 flex flex-col items-center">
+      {/* Title */}
       <h1 className="text-4xl font-bold text-center mb-8 text-white">
         Segmentation-Demo
       </h1>
 
       {/* ✅ Two-column layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
-        {/* LEFT SIDE — stacked panels */}
-        <div className="flex flex-col gap-6 justify-between h-[650px]">
+        {/* LEFT SIDE — Run + Upload */}
+        <div className="flex flex-col gap-6 justify-between h-[660px]">
           {/* 🧠 Run Sample Demo */}
           <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between flex-1">
             <h2 className="text-lg font-semibold mb-3 text-center">
@@ -124,33 +123,37 @@ const FusionPage = () => {
         </div>
 
         {/* 🖼️ Slice Viewer */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[650px] overflow-hidden">
-          <div className="flex flex-col h-full">
-            {/* ✅ Slice Viewer Title Always Visible */}
-            <h2 className="text-lg font-semibold text-center mb-3">
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[660px] overflow-hidden">
+          {/* ✅ Title always visible */}
+          <div>
+            <h2 className="text-lg font-semibold mb-3 text-center">
               Slice Viewer
             </h2>
+          </div>
 
-            {/* Image and Controls */}
-            <div className="flex-1 overflow-hidden flex flex-col items-center justify-center">
-              <div className="w-full h-full flex justify-center items-center overflow-hidden">
-                {/* Ensures auto-scaling */}
-                <div className="max-w-full max-h-full flex justify-center items-center">
-                  <SliceViewer />
-                </div>
+          {/* ✅ Image and controls centered */}
+          <div className="flex-1 flex flex-col items-center justify-center overflow-hidden px-2">
+            <div className="w-full flex-1 flex justify-center items-center overflow-hidden">
+              <div className="max-w-full max-h-full flex justify-center items-center">
+                <SliceViewer />
               </div>
             </div>
+          </div>
 
-            {/* ✅ Results Button inside box */}
+          {/* ✅ Slider + Button inside bottom padding */}
+          <div className="mt-4 flex flex-col items-center justify-center space-y-3 pb-1">
+            {/* The slider will now stay visible */}
+            <div className="w-5/6 flex justify-center items-center">
+              {/* If your SliceViewer renders slider separately, it’ll stay inside now */}
+            </div>
+
             {showResultButton && (
-              <div className="flex justify-center mt-4 mb-1">
-                <button
-                  onClick={() => navigate("/results")}
-                  className="bg-green-600 hover:bg-green-700 text-white py-2 px-5 rounded-lg font-semibold transition"
-                >
-                  🧩 Open Detailed View
-                </button>
-              </div>
+              <button
+                onClick={() => navigate("/results")}
+                className="bg-green-600 hover:bg-green-700 text-white py-2 px-5 rounded-lg font-semibold transition"
+              >
+                🧩 Open Detailed View
+              </button>
             )}
           </div>
         </div>
