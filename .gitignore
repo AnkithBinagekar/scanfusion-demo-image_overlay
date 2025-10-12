@@ -27,8 +27,8 @@ __pycache__/
 *.pyc
 
 # Backend generated files
-scanfusion-backend/app/static/
-scanfusion-backend/app/uploads/
+#scanfusion-backend/app/static/
+#scanfusion-backend/app/uploads/
 
 # Environment variables
 .env

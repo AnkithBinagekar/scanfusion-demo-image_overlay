@@ -68,9 +68,9 @@ const FusionPage = () => {
               onChange={(e) => setSelectedDemo(e.target.value)}
               className="p-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
             >
-              <option value="UCSF-PDGM">🧠 UCSF-PDGM Dataset</option>
-              <option value="Yale">🏥 Yale Dataset</option>
-              <option value="Lumiere">💡 Lumiere Dataset</option>
+              <option value="UCSF-PDGM"> UCSF-PDGM Dataset</option>
+              <option value="Yale"> Yale Dataset</option>
+              <option value="Lumiere"> Lumiere Dataset</option>
             </select>
 
             <button
@@ -155,7 +155,7 @@ const FusionPage = () => {
                 onClick={() => navigate("/results")}
                 className="bg-green-600 hover:bg-green-700 text-white py-2 px-5 rounded-lg font-semibold transition"
               >
-                🧩 Open Detailed View
+                 Open Detailed View
               </button>
             )}
           </div>
