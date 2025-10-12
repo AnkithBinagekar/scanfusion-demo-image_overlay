@@ -48,12 +48,12 @@ const FusionPage = () => {
         Segmentation-Demo
       </h1>
 
-      {/* ✅ Two-column grid */}
+      {/* ✅ Two-column layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
-        {/* LEFT SIDE — two stacked rectangles */}
+        {/* LEFT SIDE — two stacked cards */}
         <div className="flex flex-col gap-6">
           {/* 🧠 Run Sample Demo */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[220px] overflow-hidden">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between min-h-[220px] sm:min-h-[240px] md:min-h-[250px]">
             <h2 className="text-lg font-semibold mb-3 text-center">
               Run Sample Demo
             </h2>
@@ -114,8 +114,8 @@ const FusionPage = () => {
           </div>
 
           {/* 📂 Upload MRI Scan */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[220px] overflow-hidden">
-            <div className="flex-1 overflow-y-auto">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between min-h-[260px] sm:min-h-[280px] md:min-h-[290px]">
+            <div className="flex-1 overflow-hidden">
               <UploadSection />
             </div>
             <div className="mt-4">
@@ -125,9 +125,21 @@ const FusionPage = () => {
         </div>
 
         {/* 🖼️ Slice Viewer */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[460px] overflow-hidden">
-          <div className="flex-1 overflow-auto flex flex-col items-center justify-center">
-            <SliceViewer />
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center h-[560px] sm:h-[580px] md:h-[600px]">
+          <div className="w-full h-full flex flex-col items-center justify-center overflow-hidden">
+            {/* Auto-scale the image viewer */}
+            <div className="flex-1 w-full flex items-center justify-center overflow-hidden">
+              <div className="w-full max-h-full flex justify-center items-center">
+                <SliceViewer />
+              </div>
+            </div>
+
+            {/* Keeps slider inside box */}
+            <div className="w-full mt-4 flex justify-center">
+              <div className="w-3/4 md:w-2/3">
+                {/* Slider stays inside parent */}
+              </div>
+            </div>
           </div>
         </div>
       </div>
