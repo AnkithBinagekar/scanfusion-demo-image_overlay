@@ -27,17 +27,19 @@ const SliceViewer = () => {
   if (showMode === "overlay") slicesToShow = overlaySlices;
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-4 text-white">Slice Viewer</h2>
+    <div className="flex flex-col h-full w-full text-white overflow-hidden">
+      <h2 className="text-2xl font-semibold mb-3 text-center">Slice Viewer</h2>
 
       {slicesToShow.length === 0 ? (
-        <div className="text-gray-400">No slices to preview yet.</div>
+        <div className="text-gray-400 text-center mt-8">
+          No slices to preview yet.
+        </div>
       ) : (
-        <div className="text-white">
-          {/* Mode Switch */}
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <label className="mr-4">
+        <div className="flex flex-col justify-between h-full">
+          {/* 🔘 Mode Switch */}
+          <div className="mb-3 flex items-center justify-between text-sm">
+            <div className="flex flex-wrap gap-3">
+              <label>
                 <input
                   type="radio"
                   name="view"
@@ -47,7 +49,7 @@ const SliceViewer = () => {
                 />
                 Input
               </label>
-              <label className="mr-4">
+              <label>
                 <input
                   type="radio"
                   name="view"
@@ -73,22 +75,26 @@ const SliceViewer = () => {
             </div>
           </div>
 
-          {/* Image Preview */}
-          <img
-            src={resolveUrl(slicesToShow[currentIndex])}
-            alt="Slice Preview"
-            className="w-full max-w-md mx-auto mb-4 rounded shadow"
-          />
+          {/* 🧠 Image Preview (Auto-scaling) */}
+          <div className="flex-1 flex items-center justify-center overflow-hidden">
+            <img
+              src={resolveUrl(slicesToShow[currentIndex])}
+              alt="Slice Preview"
+              className="max-w-full max-h-[65vh] object-contain rounded shadow"
+            />
+          </div>
 
-          {/* Slider */}
-          <input
-            type="range"
-            min="0"
-            max={slicesToShow.length - 1}
-            value={currentIndex}
-            onChange={(e) => setCurrentIndex(parseInt(e.target.value))}
-            className="w-full"
-          />
+          {/* 🎚️ Slider Section (Always visible) */}
+          <div className="mt-4 w-full px-4 overflow-visible">
+            <input
+              type="range"
+              min="0"
+              max={slicesToShow.length - 1}
+              value={currentIndex}
+              onChange={(e) => setCurrentIndex(parseInt(e.target.value))}
+              className="w-full accent-blue-500 cursor-pointer"
+            />
+          </div>
         </div>
       )}
     </div>

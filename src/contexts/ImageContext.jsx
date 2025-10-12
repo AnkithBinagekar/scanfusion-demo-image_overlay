@@ -27,6 +27,17 @@ export const ImageProvider = ({ children }) => {
     setShowResultButton(true);
   };
 
+  // ✅ Auto-reset when user uploads new scan
+  const handleNewUpload = (file) => {
+    setUploadedFile(file);
+    setInputSlices([]);
+    setOutputSlices([]);
+    setOverlaySlices([]);
+    setShowMode("input");
+    setCurrentIndex(0);
+    setShowResultButton(false); // hide “Detailed View” button on new upload
+  };
+
   return (
     <ImageContext.Provider
       value={{
