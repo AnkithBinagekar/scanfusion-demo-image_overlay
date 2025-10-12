@@ -75,14 +75,13 @@ const SliceViewer = () => {
           </div>
 
           {/* 🧠 Image Preview (Auto-scaling) */}
-       <div className="flex-1 flex items-center justify-center overflow-hidden">
-  <img
-    src={resolveUrl(slicesToShow[currentIndex])}
-    alt="Slice Preview"
-    className="w-auto h-[70vh] max-h-[80vh] object-contain rounded-xl shadow-lg transition-all duration-300"
-  />
-</div>
-
+          <div className="flex-1 flex items-center justify-center overflow-hidden">
+            <img
+              src={resolveUrl(slicesToShow[currentIndex])}
+              alt="Slice Preview"
+              className="max-w-full max-h-[75vh] object-contain rounded shadow"
+            />
+          </div>
 
           {/* 🎚️ Slider Section (Always visible) */}
           <div className="mt-4 w-full px-4 overflow-visible">
