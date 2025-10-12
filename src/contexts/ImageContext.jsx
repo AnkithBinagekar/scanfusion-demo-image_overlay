@@ -12,6 +12,9 @@ export const ImageProvider = ({ children }) => {
   const [showMode, setShowMode] = useState("input"); // input | mask | overlay
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // ✅ new state to persist visibility of "Open Detailed View" button
+  const [showResultButton, setShowResultButton] = useState(false);
+
   // ✅ Helper: set all processed images at once (for demo or upload)
   const setProcessedImages = (data) => {
     if (!data) return;
@@ -19,6 +22,9 @@ export const ImageProvider = ({ children }) => {
     setOutputSlices(data.output || []);
     setOverlaySlices(data.overlay || []);
     //setGifUrl(data.gif || null);
+
+    // ✅ when new processed data arrives, show the Detailed View button
+    setShowResultButton(true);
   };
 
   return (
@@ -33,12 +39,14 @@ export const ImageProvider = ({ children }) => {
         overlaySlices,
         setOverlaySlices,
         //gifUrl,
-       // setGifUrl,
+        //setGifUrl,
         showMode,
         setShowMode,
         currentIndex,
         setCurrentIndex,
-        setProcessedImages, // ✅ expose helper to other components
+        setProcessedImages, // ✅ expose helper
+        showResultButton, // ✅ persist Detailed View visibility
+        setShowResultButton, // ✅ allow components to toggle it
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import UploadSection from "../components/UploadSection";
 import FusionOptions from "../components/FusionOptions";
 import SliceViewer from "../components/SliceViewer";
@@ -10,10 +10,18 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const FusionPage = () => {
   const navigate = useNavigate();
-  const { setProcessedImages } = useContext(ImageContext);
+  const {
+    setProcessedImages,
+    showResultButton,
+    setShowResultButton,
+  } = useContext(ImageContext);
   const [isDemoLoading, setIsDemoLoading] = useState(false);
   const [selectedDemo, setSelectedDemo] = useState("UCSF-PDGM");
-  const [showResultButton, setShowResultButton] = useState(false);
+
+  useEffect(() => {
+    // restore scroll position to top each time
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleRunDemo = async () => {
     try {
@@ -29,7 +37,7 @@ const FusionPage = () => {
       }
 
       setProcessedImages(response.data);
-      setShowResultButton(true);
+      setShowResultButton(true); // ✅ persist across navigation
       alert(`✅ ${selectedDemo} demo completed successfully!`);
     } catch (error) {
       console.error("❌ Demo run failed:", error);
@@ -41,15 +49,14 @@ const FusionPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6 flex flex-col items-center">
-      {/* Title */}
-      <h1 className="text-4xl font-bold text-center mb-8 text-white">
+      <h1 className="text-4xl font-bold text-center mb-6 text-white">
         Segmentation-Demo
       </h1>
 
-      {/* ✅ Two-column layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
-        {/* LEFT SIDE — Run + Upload */}
-        <div className="flex flex-col gap-6 justify-between h-[660px]">
+        {/* LEFT SIDE */}
+        <div className="flex flex-col gap-6 justify-between"
+             style={{ height: "calc(100vh - 160px)" }}>
           {/* 🧠 Run Sample Demo */}
           <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between flex-1">
             <h2 className="text-lg font-semibold mb-3 text-center">
@@ -122,31 +129,27 @@ const FusionPage = () => {
           </div>
         </div>
 
-        {/* 🖼️ Slice Viewer */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[660px] overflow-hidden">
-          {/* ✅ Title always visible */}
-          <div>
-            <h2 className="text-lg font-semibold mb-3 text-center">
-              Slice Viewer
-            </h2>
-          </div>
+        {/* 🖼️ SLICE VIEWER */}
+        <div
+          className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col overflow-hidden"
+          style={{ height: "calc(100vh - 160px)" }}
+        >
+          {/* Header */}
+          <h2 className="text-lg font-semibold mb-3 text-center">
+            Slice Viewer
+          </h2>
 
-          {/* ✅ Image and controls centered */}
+          {/* Image Viewer Area */}
           <div className="flex-1 flex flex-col items-center justify-center overflow-hidden px-2">
-            <div className="w-full flex-1 flex justify-center items-center overflow-hidden">
+            <div className="w-full flex justify-center items-center overflow-hidden">
               <div className="max-w-full max-h-full flex justify-center items-center">
                 <SliceViewer />
               </div>
             </div>
           </div>
 
-          {/* ✅ Slider + Button inside bottom padding */}
-          <div className="mt-4 flex flex-col items-center justify-center space-y-3 pb-1">
-            {/* The slider will now stay visible */}
-            <div className="w-5/6 flex justify-center items-center">
-              {/* If your SliceViewer renders slider separately, it’ll stay inside now */}
-            </div>
-
+          {/* Slider + Button (stay inside box) */}
+          <div className="mt-4 flex flex-col items-center justify-center space-y-3 pb-2">
             {showResultButton && (
               <button
                 onClick={() => navigate("/results")}
