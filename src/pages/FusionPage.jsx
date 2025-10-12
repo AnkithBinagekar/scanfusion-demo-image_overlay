@@ -52,8 +52,8 @@ const FusionPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
         {/* LEFT SIDE — two stacked rectangles */}
         <div className="flex flex-col gap-6">
-          {/* 🧠 Run Sample Demo (top small box) */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[220px]">
+          {/* 🧠 Run Sample Demo */}
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[220px] overflow-hidden">
             <h2 className="text-lg font-semibold mb-3 text-center">
               Run Sample Demo
             </h2>
@@ -113,18 +113,22 @@ const FusionPage = () => {
             )}
           </div>
 
-          {/* 📂 Upload MRI Scan (bottom small box) */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[220px]">
-            <UploadSection />
+          {/* 📂 Upload MRI Scan */}
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[220px] overflow-hidden">
+            <div className="flex-1 overflow-y-auto">
+              <UploadSection />
+            </div>
             <div className="mt-4">
               <FusionOptions />
             </div>
           </div>
         </div>
 
-        {/* RIGHT SIDE — one tall box (Slice Viewer) */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[460px]">
-          <SliceViewer />
+        {/* 🖼️ Slice Viewer */}
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[460px] overflow-hidden">
+          <div className="flex-1 overflow-auto flex flex-col items-center justify-center">
+            <SliceViewer />
+          </div>
         </div>
       </div>
     </div>
