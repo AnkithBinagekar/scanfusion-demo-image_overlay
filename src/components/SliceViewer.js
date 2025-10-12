@@ -27,23 +27,15 @@ const SliceViewer = () => {
   if (showMode === "overlay") slicesToShow = overlaySlices;
 
   return (
-    <div
-      className="flex flex-col items-center justify-between bg-[#1b1b1b] rounded-2xl p-4 text-white shadow-md w-full"
-      style={{
-        height: "calc(100vh - 160px)", // fills full right column space
-        minHeight: "500px",
-        maxHeight: "800px",
-      }}
-    >
-      <h2 className="text-2xl font-semibold mb-3 text-center">Slice Viewer</h2>
-
+    <div className="flex flex-col h-full w-full text-white overflow-hidden">
+     
       {slicesToShow.length === 0 ? (
         <div className="text-gray-400 text-center mt-8">
           No slices to preview yet.
         </div>
       ) : (
-        <div className="flex flex-col justify-between w-full h-full">
-          {/* Mode Switch */}
+        <div className="flex flex-col justify-between h-full">
+          {/* 🔘 Mode Switch */}
           <div className="mb-3 flex items-center justify-between text-sm">
             <div className="flex flex-wrap gap-3">
               <label>
@@ -82,21 +74,17 @@ const SliceViewer = () => {
             </div>
           </div>
 
-          {/* Image Section */}
-          <div className="flex-1 flex justify-center items-center overflow-hidden">
+          {/* 🧠 Image Preview (Auto-scaling) */}
+          <div className="flex-1 flex items-center justify-center overflow-hidden">
             <img
               src={resolveUrl(slicesToShow[currentIndex])}
               alt="Slice Preview"
-              className="object-contain max-w-full max-h-full rounded-lg"
-              style={{
-                height: "100%",
-                width: "auto",
-              }}
+              className="max-w-full max-h-[65vh] object-contain rounded shadow"
             />
           </div>
 
-          {/* Slider */}
-          <div className="mt-4 w-full px-6 overflow-visible">
+          {/* 🎚️ Slider Section (Always visible) */}
+          <div className="mt-4 w-full px-4 overflow-visible">
             <input
               type="range"
               min="0"
