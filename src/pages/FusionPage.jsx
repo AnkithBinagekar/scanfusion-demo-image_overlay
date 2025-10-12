@@ -10,12 +10,11 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const FusionPage = () => {
   const navigate = useNavigate();
-  const { setProcessedImages, processedImages } = useContext(ImageContext);
+  const { setProcessedImages } = useContext(ImageContext);
   const [isDemoLoading, setIsDemoLoading] = useState(false);
   const [selectedDemo, setSelectedDemo] = useState("UCSF-PDGM");
   const [showResultButton, setShowResultButton] = useState(false);
 
-  // ✅ Run Sample Demo
   const handleRunDemo = async () => {
     try {
       setIsDemoLoading(true);
@@ -32,7 +31,7 @@ const FusionPage = () => {
       }
 
       setProcessedImages(response.data);
-      setShowResultButton(true); // show the results button
+      setShowResultButton(true);
       alert(`✅ ${selectedDemo} demo completed successfully!`);
     } catch (error) {
       console.error("❌ Demo run failed:", error);
@@ -44,17 +43,16 @@ const FusionPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6 flex flex-col items-center">
-      {/* Title */}
       <h1 className="text-4xl font-bold text-center mb-8 text-white">
         Segmentation-Demo
       </h1>
 
       {/* ✅ Two-column layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
-        {/* LEFT SIDE — two stacked cards */}
-        <div className="flex flex-col gap-6">
+        {/* LEFT SIDE — stacked panels */}
+        <div className="flex flex-col gap-6 justify-between h-[650px]">
           {/* 🧠 Run Sample Demo */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between min-h-[250px]">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between flex-1">
             <h2 className="text-lg font-semibold mb-3 text-center">
               Run Sample Demo
             </h2>
@@ -115,7 +113,7 @@ const FusionPage = () => {
           </div>
 
           {/* 📂 Upload MRI Scan */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between min-h-[290px]">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between flex-1">
             <div className="flex-1 overflow-hidden">
               <UploadSection />
             </div>
@@ -126,22 +124,33 @@ const FusionPage = () => {
         </div>
 
         {/* 🖼️ Slice Viewer */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center h-[600px]">
-          <div className="w-full h-full flex flex-col items-center justify-center overflow-hidden">
-            <div className="flex-1 w-full flex items-center justify-center overflow-hidden">
-              <div className="w-full max-h-full flex justify-center items-center">
-                <SliceViewer />
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between h-[650px] overflow-hidden">
+          <div className="flex flex-col h-full">
+            {/* ✅ Slice Viewer Title Always Visible */}
+            <h2 className="text-lg font-semibold text-center mb-3">
+              Slice Viewer
+            </h2>
+
+            {/* Image and Controls */}
+            <div className="flex-1 overflow-hidden flex flex-col items-center justify-center">
+              <div className="w-full h-full flex justify-center items-center overflow-hidden">
+                {/* Ensures auto-scaling */}
+                <div className="max-w-full max-h-full flex justify-center items-center">
+                  <SliceViewer />
+                </div>
               </div>
             </div>
 
-            {/* View Detailed Results Button */}
+            {/* ✅ Results Button inside box */}
             {showResultButton && (
-              <button
-                onClick={() => navigate("/results")}
-                className="mt-6 bg-green-600 hover:bg-green-700 text-white py-2 px-5 rounded-lg font-semibold transition"
-              >
-                🧩 Open Detailed View
-              </button>
+              <div className="flex justify-center mt-4 mb-1">
+                <button
+                  onClick={() => navigate("/results")}
+                  className="bg-green-600 hover:bg-green-700 text-white py-2 px-5 rounded-lg font-semibold transition"
+                >
+                  🧩 Open Detailed View
+                </button>
+              </div>
             )}
           </div>
         </div>
