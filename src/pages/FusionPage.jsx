@@ -10,9 +10,10 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const FusionPage = () => {
   const navigate = useNavigate();
-  const { setProcessedImages } = useContext(ImageContext);
+  const { setProcessedImages, processedImages } = useContext(ImageContext);
   const [isDemoLoading, setIsDemoLoading] = useState(false);
   const [selectedDemo, setSelectedDemo] = useState("UCSF-PDGM");
+  const [showResultButton, setShowResultButton] = useState(false);
 
   // ✅ Run Sample Demo
   const handleRunDemo = async () => {
@@ -31,8 +32,8 @@ const FusionPage = () => {
       }
 
       setProcessedImages(response.data);
+      setShowResultButton(true); // show the results button
       alert(`✅ ${selectedDemo} demo completed successfully!`);
-      navigate("/results");
     } catch (error) {
       console.error("❌ Demo run failed:", error);
       alert("Demo failed. Check console for details.");
@@ -53,7 +54,7 @@ const FusionPage = () => {
         {/* LEFT SIDE — two stacked cards */}
         <div className="flex flex-col gap-6">
           {/* 🧠 Run Sample Demo */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between min-h-[260px] sm:min-h-[280px] md:min-h-[290px]">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between min-h-[250px]">
             <h2 className="text-lg font-semibold mb-3 text-center">
               Run Sample Demo
             </h2>
@@ -63,9 +64,9 @@ const FusionPage = () => {
               onChange={(e) => setSelectedDemo(e.target.value)}
               className="p-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
             >
-              <option value="UCSF-PDGM"> UCSF-PDGM Dataset</option>
-              <option value="Yale"> Yale Dataset</option>
-              <option value="Lumiere"> Lumiere Dataset</option>
+              <option value="UCSF-PDGM">🧠 UCSF-PDGM Dataset</option>
+              <option value="Yale">🏥 Yale Dataset</option>
+              <option value="Lumiere">💡 Lumiere Dataset</option>
             </select>
 
             <button
@@ -114,7 +115,7 @@ const FusionPage = () => {
           </div>
 
           {/* 📂 Upload MRI Scan */}
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between min-h-[260px] sm:min-h-[280px] md:min-h-[290px]">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between min-h-[290px]">
             <div className="flex-1 overflow-hidden">
               <UploadSection />
             </div>
@@ -125,21 +126,23 @@ const FusionPage = () => {
         </div>
 
         {/* 🖼️ Slice Viewer */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center h-[560px] sm:h-[580px] md:h-[600px]">
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center h-[600px]">
           <div className="w-full h-full flex flex-col items-center justify-center overflow-hidden">
-            {/* Auto-scale the image viewer */}
             <div className="flex-1 w-full flex items-center justify-center overflow-hidden">
               <div className="w-full max-h-full flex justify-center items-center">
                 <SliceViewer />
               </div>
             </div>
 
-            {/* Keeps slider inside box */}
-            <div className="w-full mt-4 flex justify-center">
-              <div className="w-3/4 md:w-2/3">
-                {/* Slider stays inside parent */}
-              </div>
-            </div>
+            {/* View Detailed Results Button */}
+            {showResultButton && (
+              <button
+                onClick={() => navigate("/results")}
+                className="mt-6 bg-green-600 hover:bg-green-700 text-white py-2 px-5 rounded-lg font-semibold transition"
+              >
+                🧩 Open Detailed View
+              </button>
+            )}
           </div>
         </div>
       </div>
