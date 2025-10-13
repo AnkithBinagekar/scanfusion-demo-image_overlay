@@ -153,7 +153,8 @@ const FusionPage = () => {
             {showResultButton && (
               <button
                 onClick={() => navigate("/results")}
-                className="bg-green-600 hover:bg-green-700 text-white py-2 px-5 rounded-lg font-semibold transition"
+                //className="bg-green-600 hover:bg-green-700 text-white py-2 px-5 rounded-lg font-semibold transition"
+                 className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-opacity duration-500 opacity-100"
               >
                  Open Detailed View
               </button>
