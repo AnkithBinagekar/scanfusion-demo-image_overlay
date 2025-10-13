@@ -44,7 +44,7 @@ const SliceViewer = () => {
                   name="view"
                   checked={showMode === "input"}
                   onChange={() => setShowMode("input")}
-                  className="mr-1"
+                  className="mr-4"
                 />
                 Input
               </label>
@@ -54,7 +54,7 @@ const SliceViewer = () => {
                   name="view"
                   checked={showMode === "mask"}
                   onChange={() => setShowMode("mask")}
-                  className="mr-1"
+                  className="mr-4"
                 />
                 Segmentation Mask
               </label>
@@ -64,7 +64,7 @@ const SliceViewer = () => {
                   name="view"
                   checked={showMode === "overlay"}
                   onChange={() => setShowMode("overlay")}
-                  className="mr-2"
+                  className="mr-4"
                 />
                 Overlay
               </label>
