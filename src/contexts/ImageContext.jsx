@@ -38,29 +38,32 @@ export const ImageProvider = ({ children }) => {
     setShowResultButton(false); // hide “Detailed View” button on new upload
   };
 
-  return (
-    <ImageContext.Provider
-      value={{
-        uploadedFile,
-        setUploadedFile,
-        inputSlices,
-        setInputSlices,
-        outputSlices,
-        setOutputSlices,
-        overlaySlices,
-        setOverlaySlices,
-        //gifUrl,
-        //setGifUrl,
-        showMode,
-        setShowMode,
-        currentIndex,
-        setCurrentIndex,
-        setProcessedImages, // ✅ expose helper
-        showResultButton, // ✅ persist Detailed View visibility
-        setShowResultButton, // ✅ allow components to toggle it
-      }}
-    >
-      {children}
-    </ImageContext.Provider>
-  );
+ return (
+  <ImageContext.Provider
+    value={{
+      uploadedFile,
+      setUploadedFile,      // ✅ keep original React setter
+      handleNewUpload,      // ✅ new helper with auto-reset logic
+      inputSlices,
+      setInputSlices,
+      outputSlices,
+      setOutputSlices,
+      overlaySlices,
+      setOverlaySlices,
+      //gifUrl,
+      //setGifUrl,
+      showMode,
+      setShowMode,
+      currentIndex,
+      setCurrentIndex,
+      setProcessedImages,
+      showResultButton,
+      setShowResultButton,
+    }}
+  >
+    {children}
+  </ImageContext.Provider>
+);
+
 };
+
