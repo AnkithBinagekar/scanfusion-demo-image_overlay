@@ -33,7 +33,7 @@ const FusionOptions = () => {
     setInputSlices,
     setOutputSlices,
     setOverlaySlices,
-    setGifUrl,
+    //setGifUrl,
   } = useContext(ImageContext);
 
   const navigate = useNavigate();
@@ -72,14 +72,14 @@ const FusionOptions = () => {
       const inputUrls = data.input || [];
       const outputUrls = data.output || [];
       const overlayUrls = data.overlay || [];
-      const gifUrl = data.gif || null;
+      //const gifUrl = data.gif || null;
 
 
       // Save into context
       setInputSlices(inputUrls);
       setOutputSlices(outputUrls);
       setOverlaySlices(overlayUrls);
-      setGifUrl(gifUrl);
+      //setGifUrl(gifUrl);
 
       navigate("/results");
     } catch (error) {
