@@ -64,11 +64,12 @@ const SliceViewer = () => {
                   name="view"
                   checked={showMode === "overlay"}
                   onChange={() => setShowMode("overlay")}
-                  className="mr-1"
+                  className="mr-2"
                 />
                 Overlay
               </label>
             </div>
+
             <div>
               Slice {currentIndex + 1} of {slicesToShow.length}
             </div>
