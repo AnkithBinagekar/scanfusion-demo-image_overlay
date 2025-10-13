@@ -81,7 +81,7 @@ const FusionOptions = () => {
       setOverlaySlices(overlayUrls);
       //setGifUrl(gifUrl);
 
-      navigate("/results");
+      //navigate("/results");
     } catch (error) {
       console.error("Fusion error:", error);
      // Check if error has a message property and use it, otherwise use the error object itself.
