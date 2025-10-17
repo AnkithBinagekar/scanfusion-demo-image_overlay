@@ -24,7 +24,7 @@ const SliceViewer = () => {
   const containerRef = useRef(null);
   const [containerHeight, setContainerHeight] = useState(0);
 
-  // ✅ Update height dynamically on window resize
+  // 🔁 Update size on window resize
   useEffect(() => {
     const updateSize = () => {
       if (containerRef.current) {
@@ -53,7 +53,7 @@ const SliceViewer = () => {
       ) : (
         <div className="flex flex-col justify-between h-full">
           {/* 🔘 Mode Switch */}
-          <div className="mb-3 flex items-center justify-between text-sm px-2">
+          <div className="mb-2 flex items-center justify-between text-sm px-3">
             <div className="flex flex-wrap gap-3">
               <label>
                 <input
@@ -92,25 +92,26 @@ const SliceViewer = () => {
             </div>
           </div>
 
-          {/* 🧠 Image Preview (Auto-scaling, centered) */}
+          {/* 🧠 Image Preview (Larger and responsive) */}
           <div
-            className="flex-1 flex items-center justify-center overflow-hidden rounded-md"
+            className="flex-1 flex items-center justify-center overflow-hidden px-3"
             style={{
-              maxHeight: `${containerHeight * 0.75}px`, // 75% of container height
+              maxHeight: `${containerHeight * 0.8}px`, // image gets 80% of container
             }}
           >
             <img
               src={resolveUrl(slicesToShow[currentIndex])}
               alt="Slice Preview"
-              className="object-contain w-auto h-full max-w-full max-h-full rounded-lg shadow-lg transition-all duration-300"
+              className="object-contain w-full h-auto max-h-full rounded-lg shadow-lg transition-all duration-300"
               style={{
-                aspectRatio: "1/1",
+                maxWidth: "95%",
+                maxHeight: "95%",
               }}
             />
           </div>
 
-          {/* 🎚️ Slider Section (Always visible, fits inside view) */}
-          <div className="mt-4 w-full px-4 pb-2">
+          {/* 🎚️ Slider Section */}
+          <div className="mt-3 w-full px-6 pb-3">
             <input
               type="range"
               min="0"
