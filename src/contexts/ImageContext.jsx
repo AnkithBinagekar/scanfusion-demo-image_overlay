@@ -4,9 +4,9 @@ export const ImageContext = createContext();
 
 export const ImageProvider = ({ children }) => {
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [inputSlices, setInputSlices] = useState([]);
-  const [outputSlices, setOutputSlices] = useState([]);
-  const [overlaySlices, setOverlaySlices] = useState([]);
+  const [inputSlices, setInputSlicesState] = useState([]);
+  const [outputSlices, setOutputSlicesState] = useState([]);
+  const [overlaySlices, setOverlaySlicesState] = useState([]);
   // const [gifUrl, setGifUrl] = useState(null);
 
   const [showMode, setShowMode] = useState("input"); // input | mask | overlay
@@ -23,6 +23,22 @@ export const ImageProvider = ({ children }) => {
 
     setShowResultButton(hasAnySlices);
   }, [inputSlices, outputSlices, overlaySlices]);
+
+  // ✅ Reset slider to 0 whenever new slices are set
+  const setInputSlices = (slices) => {
+    setInputSlicesState(slices);
+    setCurrentIndex(0);
+  };
+
+  const setOutputSlices = (slices) => {
+    setOutputSlicesState(slices);
+    setCurrentIndex(0);
+  };
+
+  const setOverlaySlices = (slices) => {
+    setOverlaySlicesState(slices);
+    setCurrentIndex(0);
+  };
 
   const setProcessedImages = (data) => {
     if (!data) return;

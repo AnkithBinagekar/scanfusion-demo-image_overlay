@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ImageContext } from "../contexts/ImageContext";
 
 const API_BASE = "http://localhost:8000";
@@ -21,14 +21,31 @@ const SliceViewer = () => {
     setCurrentIndex,
   } = useContext(ImageContext);
 
+  const containerRef = useRef(null);
+  const [containerHeight, setContainerHeight] = useState(0);
+
+  // ✅ Update height dynamically on window resize
+  useEffect(() => {
+    const updateSize = () => {
+      if (containerRef.current) {
+        setContainerHeight(containerRef.current.offsetHeight);
+      }
+    };
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
   let slicesToShow = [];
   if (showMode === "input") slicesToShow = inputSlices;
   if (showMode === "mask") slicesToShow = outputSlices;
   if (showMode === "overlay") slicesToShow = overlaySlices;
 
   return (
-    <div className="flex flex-col h-full w-full text-white overflow-hidden">
-     
+    <div
+      ref={containerRef}
+      className="flex flex-col h-full w-full text-white overflow-hidden"
+    >
       {slicesToShow.length === 0 ? (
         <div className="text-gray-400 text-center mt-8">
           No slices to preview yet.
@@ -36,7 +53,7 @@ const SliceViewer = () => {
       ) : (
         <div className="flex flex-col justify-between h-full">
           {/* 🔘 Mode Switch */}
-          <div className="mb-3 flex items-center justify-between text-sm">
+          <div className="mb-3 flex items-center justify-between text-sm px-2">
             <div className="flex flex-wrap gap-3">
               <label>
                 <input
@@ -44,7 +61,7 @@ const SliceViewer = () => {
                   name="view"
                   checked={showMode === "input"}
                   onChange={() => setShowMode("input")}
-                  className="mr-0"
+                  className="mr-1"
                 />
                 Input
               </label>
@@ -54,7 +71,7 @@ const SliceViewer = () => {
                   name="view"
                   checked={showMode === "mask"}
                   onChange={() => setShowMode("mask")}
-                  className="mr-0"
+                  className="mr-1"
                 />
                 Segmentation Mask
               </label>
@@ -64,29 +81,36 @@ const SliceViewer = () => {
                   name="view"
                   checked={showMode === "overlay"}
                   onChange={() => setShowMode("overlay")}
-                  className="mr-0"
+                  className="mr-1"
                 />
                 Overlay
               </label>
             </div>
-            
+
             <div>
               Slice {currentIndex + 1} of {slicesToShow.length}
             </div>
           </div>
 
-          {/* 🧠 Image Preview (Auto-scaling) */}
-          <div className="flex-1 flex items-center justify-center overflow-hidden">
+          {/* 🧠 Image Preview (Auto-scaling, centered) */}
+          <div
+            className="flex-1 flex items-center justify-center overflow-hidden rounded-md"
+            style={{
+              maxHeight: `${containerHeight * 0.75}px`, // 75% of container height
+            }}
+          >
             <img
               src={resolveUrl(slicesToShow[currentIndex])}
               alt="Slice Preview"
-              //className="max-w-full max-h-[75vh] object-contain rounded shadow"
-              className="w-full max-w-md mx-auto mb-4 rounded shadow"
+              className="object-contain w-auto h-full max-w-full max-h-full rounded-lg shadow-lg transition-all duration-300"
+              style={{
+                aspectRatio: "1/1",
+              }}
             />
           </div>
 
-          {/* 🎚️ Slider Section (Always visible) */}
-          <div className="mt-4 w-full px-4 overflow-visible">
+          {/* 🎚️ Slider Section (Always visible, fits inside view) */}
+          <div className="mt-4 w-full px-4 pb-2">
             <input
               type="range"
               min="0"
