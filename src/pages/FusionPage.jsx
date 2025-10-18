@@ -5,9 +5,8 @@ import SliceViewer from "../components/SliceViewer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ImageContext } from "../contexts/ImageContext";
+
 import ProgressBar from "../components/ProgressBar";
-
-
 const API_URL = process.env.REACT_APP_API_URL;
 
 const FusionPage = () => {
@@ -161,21 +160,22 @@ const FusionPage = () => {
                  Open Detailed View
               </button>
             )}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <div className="space-y-6">
+    <RunSampleDemo />
+    <FusionOptions />
+    <ProgressBar /> {/* ✅ shared progress bar here */}
+  </div>
+
+  <div className="col-span-2">
+    <SliceViewer />
+  </div>
+</div>
+
           </div>
         </div>
-           <div className="flex flex-col md:flex-row h-screen bg-gray-900 text-white">
-      {/* Your existing left/right panel layout */}
-      {/* Keep all previous UI, just insert progress bar below sections */}
-
-      {/* ✅ Shared Progress Bar at bottom */}
-      <div className="absolute bottom-4 left-0 right-0">
-        <ProgressBar />
       </div>
     </div>
-      </div>
-    </div>
-
-    
   );
 };
 
