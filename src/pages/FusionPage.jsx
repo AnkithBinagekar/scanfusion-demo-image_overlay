@@ -5,6 +5,8 @@ import SliceViewer from "../components/SliceViewer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ImageContext } from "../contexts/ImageContext";
+import ProgressBar from "../components/ProgressBar";
+
 
 const API_URL = process.env.REACT_APP_API_URL;
 
