@@ -31,7 +31,7 @@ const SliceViewer = () => {
         const width = viewerRef.current.offsetWidth;
         const height = window.innerHeight;
         // Use 80% of width but cap it if height is too small
-        const newSize = Math.min(width * 0.8, height * 0.6, 700);
+        const newSize = Math.min(width * 0.9, height * 0.7, 700);
         setSize(newSize);
       }
     };
