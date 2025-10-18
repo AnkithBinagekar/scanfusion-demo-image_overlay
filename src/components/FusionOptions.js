@@ -33,7 +33,9 @@ const FusionOptions = () => {
     setInputSlices,
     setOutputSlices,
     setOverlaySlices,
-    //setGifUrl,
+    setGifUrl,
+    setProgress,
+    setStatusMessage,
   } = useContext(ImageContext);
 
   const navigate = useNavigate();
@@ -41,7 +43,7 @@ const FusionOptions = () => {
 
   const handleFusion = async () => {
     if (!uploadedFile) {
-      alert("Please upload a .nii.gz or .zip file first.");
+      setStatusMessage("⚠️ Please upload a .nii.gz or .zip file first.");
       return;
     }
 
@@ -49,44 +51,41 @@ const FusionOptions = () => {
     formData.append("file", uploadedFile);
 
     setIsLoading(true);
+    setProgress(0);
+    setStatusMessage("⏳ Uploading and processing...");
+
     try {
       const response = await axios.post(`${API_URL}/process`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
-          timeout: 300000, // 60 seconds
+        timeout: 300000, // 5 minutes
+        onUploadProgress: (progressEvent) => {
+          const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          setProgress(percent);
+        },
       });
 
       const data = response.data;
 
-      // Map to fully qualified URLs
-      /*const inputUrls = (data.input || []).map((p) => `${API_URL}/${p}`);
-      const outputUrls = (data.output || []).map((p) => `${API_URL}/${p}`);
-      const overlayUrls = (data.overlay || []).map((p) => `${API_URL}/${p}`);
-      const gifUrl = data.gif ? `${API_URL}/${data.gif}` : null;*/
-
-      /*const inputUrls = (data.input || []).map((p) => resolveUrl(p));
-      const outputUrls = (data.output || []).map((p) => resolveUrl(p));
-      const overlayUrls = (data.overlay || []).map((p) => resolveUrl(p));
-      const gifUrl = data.gif ? resolveUrl(data.gif) : null;*/
-
-      // ✅ CORRECT (just store raw paths, resolve later)
+      // ✅ Store slices
       const inputUrls = data.input || [];
       const outputUrls = data.output || [];
       const overlayUrls = data.overlay || [];
-      //const gifUrl = data.gif || null;
+      const gifUrl = data.gif || null;
 
-
-      // Save into context
       setInputSlices(inputUrls);
       setOutputSlices(outputUrls);
       setOverlaySlices(overlayUrls);
-      //setGifUrl(gifUrl);
+      setGifUrl(gifUrl);
 
-      //navigate("/results");
+      setProgress(100);
+      setStatusMessage("✅ Segmentation completed successfully!");
+      setTimeout(() => setStatusMessage(""), 4000); // clear message after 4s
+
+      navigate("/results");
     } catch (error) {
       console.error("Fusion error:", error);
-     // Check if error has a message property and use it, otherwise use the error object itself.
-     const errorMessage = String(error) //error.message ? error.message : error;
-     alert("Fusion failed. Check console or backend logs. Details: " + errorMessage);
+      setStatusMessage("❌ Fusion failed. Check console or backend logs.");
+      setProgress(0);
     } finally {
       setIsLoading(false);
     }

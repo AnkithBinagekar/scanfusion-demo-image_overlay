@@ -161,8 +161,19 @@ const FusionPage = () => {
             )}
           </div>
         </div>
+           <div className="flex flex-col md:flex-row h-screen bg-gray-900 text-white">
+      {/* Your existing left/right panel layout */}
+      {/* Keep all previous UI, just insert progress bar below sections */}
+
+      {/* ✅ Shared Progress Bar at bottom */}
+      <div className="absolute bottom-4 left-0 right-0">
+        <ProgressBar />
       </div>
     </div>
+      </div>
+    </div>
+
+    
   );
 };
 

@@ -14,6 +14,11 @@ export const ImageProvider = ({ children }) => {
 
   const [showResultButton, setShowResultButton] = useState(false);
 
+  //For progress bar and result popup
+  const [progress, setProgress] = useState(0);
+const [statusMessage, setStatusMessage] = useState("");
+
+
   // ✅ New effect: automatically toggle "Detailed View" button
   useEffect(() => {
     const hasAnySlices =
@@ -77,6 +82,11 @@ export const ImageProvider = ({ children }) => {
         setProcessedImages,
         showResultButton,
         setShowResultButton,
+         // ✅ Shared progress + status
+        progress,
+        setProgress,
+        statusMessage,
+        setStatusMessage,
       }}
     >
       {children}
