@@ -1,26 +1,32 @@
 import React, { useContext } from "react";
 import { ImageContext } from "../contexts/ImageContext";
 
-const ProgressBar = () => {
+const ProgressBar = ({ showPercent = true }) => {
   const { progress, statusMessage } = useContext(ImageContext);
 
-  if (!statusMessage) return null; // Hidden when idle
+  if (!statusMessage) return null;
 
-  // Choose color based on progress state
-  let color = "bg-blue-500"; // default (processing)
-  if (statusMessage.toLowerCase().includes("completed")) color = "bg-green-500";
-  if (statusMessage.toLowerCase().includes("failed")) color = "bg-red-500";
+  // color logic
+  let color = "bg-blue-500";
+  const lower = statusMessage.toLowerCase();
+  if (lower.includes("completed") || lower.includes("done") || lower.includes("success")) {
+    color = "bg-green-500";
+  } else if (lower.includes("fail") || lower.includes("error")) {
+    color = "bg-red-500";
+  }
 
   return (
-    <div className="mt-6 w-full text-center px-4">
-      <div className="text-gray-300 mb-2 text-sm">{statusMessage}</div>
+    <div className="w-full max-w-6xl mx-auto px-4">
+      <div className="text-sm text-gray-300 mb-2 text-center">{statusMessage}</div>
       <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
         <div
           className={`${color} h-2 transition-all duration-300`}
-          style={{ width: `${progress}%` }}
+          style={{ width: `${Math.max(0, Math.min(100, progress))}%` }}
         />
       </div>
-      <div className="text-xs text-gray-400 mt-1">{progress}%</div>
+      {showPercent && (
+        <div className="text-xs text-gray-400 mt-1 text-right">{Math.round(progress)}%</div>
+      )}
     </div>
   );
 };

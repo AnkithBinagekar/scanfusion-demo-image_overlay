@@ -34,6 +34,8 @@ const FusionOptions = () => {
     setOutputSlices,
     setOverlaySlices,
     //setGifUrl,
+ setProgress,
+    setStatusMessage,
   } = useContext(ImageContext);
 
   const navigate = useNavigate();
@@ -49,12 +51,30 @@ const FusionOptions = () => {
     formData.append("file", uploadedFile);
 
     setIsLoading(true);
-    try {
+ setProgress(1);
+    setStatusMessage("⏳ Uploading and processing...");
+
+    /*try {
       const response = await axios.post(`${API_URL}/process`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
           timeout: 300000, // 60 seconds
-      });
+      });*/
 
+       try {
+      const response = await axios.post(`${API_URL}/process`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        timeout: 300000,
+        onUploadProgress: (ev) => {
+          if (ev.total) {
+            const percent = Math.round((ev.loaded * 100) / ev.total * 0.6); // upload contributes first 60%
+            setProgress(percent);
+          }
+        },
+      });
+// Immediately show "processing" if backend takes time
+      setStatusMessage("🔄 Processing on server...");
+      // optionally ramp progress to 80 while waiting for server (makes the bar feel alive)
+      setProgress(80);
       const data = response.data;
 
       // Map to fully qualified URLs
@@ -81,8 +101,23 @@ const FusionOptions = () => {
       setOverlaySlices(overlayUrls);
       //setGifUrl(gifUrl);
 
+
+ // finalize progress
+      setProgress(100);
+      setStatusMessage("✅ Segmentation completed successfully!");
+      // keep message visible for a while, then clear
+      setTimeout(() => setStatusMessage(""), 4000);
+    } catch (err) {
+      console.error("Fusion error:", err);
+      setProgress(0);
+      setStatusMessage("❌ Fusion failed. Check console or backend logs.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+      
       //navigate("/results");
-    } catch (error) {
+  /*  } catch (error) {
       console.error("Fusion error:", error);
      // Check if error has a message property and use it, otherwise use the error object itself.
      const errorMessage = String(error) //error.message ? error.message : error;
@@ -90,7 +125,7 @@ const FusionOptions = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  };*/
 
   return (
     /*<div>

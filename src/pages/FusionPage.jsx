@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import UploadSection from "../components/UploadSection";
 import FusionOptions from "../components/FusionOptions";
 import SliceViewer from "../components/SliceViewer";
+import ProgressBar from "../components/ProgressBar"; // ✅ added import
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ImageContext } from "../contexts/ImageContext";
@@ -14,7 +15,10 @@ const FusionPage = () => {
     setProcessedImages,
     showResultButton,
     setShowResultButton,
+    setProgress,
+    setStatusMessage, // ✅ added from context
   } = useContext(ImageContext);
+
   const [isDemoLoading, setIsDemoLoading] = useState(false);
   const [selectedDemo, setSelectedDemo] = useState("UCSF-PDGM");
 
@@ -26,22 +30,39 @@ const FusionPage = () => {
   const handleRunDemo = async () => {
     try {
       setIsDemoLoading(true);
+      setProgress(0);
+      setStatusMessage(`⚙️ Running ${selectedDemo} demo...`);
+
+      // simulate a gradual progress increase while waiting for backend
+      let fakeProgress = 0;
+      const timer = setInterval(() => {
+        fakeProgress = Math.min(90, fakeProgress + Math.random() * 10);
+        setProgress(Math.floor(fakeProgress));
+      }, 400);
+
       const response = await axios.post(`${API_URL}/process`, null, {
         params: { demo_sample: selectedDemo },
       });
 
+      clearInterval(timer);
+
       if (response.data.error) {
-        alert("❌ " + response.data.error);
+        setProgress(0);
+        setStatusMessage(`❌ ${response.data.error}`);
         setIsDemoLoading(false);
         return;
       }
 
       setProcessedImages(response.data);
       setShowResultButton(true); // ✅ persist across navigation
-      alert(`✅ ${selectedDemo} demo completed successfully!`);
+
+      setProgress(100);
+      setStatusMessage(`✅ ${selectedDemo} demo completed successfully!`);
+      setTimeout(() => setStatusMessage(""), 4000);
     } catch (error) {
       console.error("❌ Demo run failed:", error);
-      alert("Demo failed. Check console for details.");
+      setProgress(0);
+      setStatusMessage("❌ Demo failed. Check console for details.");
     } finally {
       setIsDemoLoading(false);
     }
@@ -55,8 +76,10 @@ const FusionPage = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
         {/* LEFT SIDE */}
-        <div className="flex flex-col gap-6 justify-between"
-             style={{ height: "calc(100vh - 160px)" }}>
+        <div
+          className="flex flex-col gap-6 justify-between"
+          style={{ height: "calc(100vh - 160px)" }}
+        >
           {/* 🧠 Run Sample Demo */}
           <div className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col justify-between flex-1">
             <h2 className="text-lg font-semibold mb-3 text-center">
@@ -68,9 +91,9 @@ const FusionPage = () => {
               onChange={(e) => setSelectedDemo(e.target.value)}
               className="p-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
             >
-              <option value="UCSF-PDGM"> UCSF-PDGM Dataset</option>
-              <option value="Yale"> Yale Dataset</option>
-              <option value="Lumiere"> Lumiere Dataset</option>
+              <option value="UCSF-PDGM">UCSF-PDGM Dataset</option>
+              <option value="Yale">Yale Dataset</option>
+              <option value="Lumiere">Lumiere Dataset</option>
             </select>
 
             <button
@@ -111,6 +134,7 @@ const FusionPage = () => {
               )}
             </button>
 
+            {/* Placeholder local pulse (kept for UX) */}
             {isDemoLoading && (
               <div className="mt-3 w-full bg-gray-700 rounded-full h-2 overflow-hidden">
                 <div className="bg-blue-500 h-2 animate-pulse w-full"></div>
@@ -127,6 +151,9 @@ const FusionPage = () => {
               <FusionOptions />
             </div>
           </div>
+
+          {/* ✅ Shared Progress Bar for both Demo + Upload */}
+          <ProgressBar />
         </div>
 
         {/* 🖼️ SLICE VIEWER */}
@@ -136,7 +163,7 @@ const FusionPage = () => {
         >
           {/* Header */}
           <h2 className="text-lg font-semibold mb-3 text-center">
-           Slice Viewer
+            Slice Viewer
           </h2>
 
           {/* Image Viewer Area */}
@@ -153,10 +180,9 @@ const FusionPage = () => {
             {showResultButton && (
               <button
                 onClick={() => navigate("/results")}
-                //className="bg-green-600 hover:bg-green-700 text-white py-2 px-5 rounded-lg font-semibold transition"
-                 className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-opacity duration-500 opacity-100"
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-opacity duration-500 opacity-100"
               >
-                 Open Detailed View
+                Open Detailed View
               </button>
             )}
           </div>

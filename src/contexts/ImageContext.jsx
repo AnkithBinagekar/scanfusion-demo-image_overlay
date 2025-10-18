@@ -61,6 +61,8 @@ const [statusMessage, setStatusMessage] = useState("");
     setShowMode("input");
     setCurrentIndex(0);
     // No need to manually hide button — auto handled by effect above
+     setProgress(0);
+    setStatusMessage("");
   };
 
   return (
