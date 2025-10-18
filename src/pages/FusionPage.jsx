@@ -163,10 +163,12 @@ const FusionPage = () => {
         </div>
 
         {/* 🖼️ SLICE VIEWER */}
-        <div
-          className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col overflow-hidden"
-          style={{ height: "calc(100vh - 160px)" }}
-        >
+       {/* 🖼️ SLICE VIEWER */}
+<div
+  className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col overflow-hidden justify-center"
+  style={{ minHeight: "calc(100vh - 100px)", height: "auto" }}
+>
+
           {/* Header */}
           <h2 className="text-lg font-semibold mb-3 text-center">
             Slice Viewer
