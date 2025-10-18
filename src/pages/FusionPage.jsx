@@ -164,30 +164,26 @@ const FusionPage = () => {
 
         {/* 🖼️ SLICE VIEWER */}
         <div
-          className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col overflow-hidden"
-          style={{ height: "calc(100vh - 160px)" }}
-        >
-          {/* Header */}
-          <h2 className="text-lg font-semibold mb-3 text-center">
-            Slice Viewer
-          </h2>
-{/* Image Viewer Area */}
-<div className="flex-1 flex items-center justify-center px-4 py-2">
-  <div className="w-full h-full flex justify-center items-center">
+  className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col"
+  style={{ height: "calc(100vh - 140px)" }} // slightly more height for content
+>
+  {/* Header */}
+  <h2 className="text-lg font-semibold mb-3 text-center">Slice Viewer</h2>
+
+  {/* Image Viewer Area */}
+  <div className="flex-grow flex items-center justify-center overflow-hidden">
     <SliceViewer />
   </div>
-</div>
 
-
-          {/* Slider + Button (stay inside box) */}
-          <div className="mt-4 flex flex-col items-center justify-center space-y-3 pb-2">
-            {showResultButton && (
-              <button
-                onClick={() => navigate("/results")}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-opacity duration-500 opacity-100"
-              >
-                Open Detailed View
-              </button>
+  {/* Slider + Button (always visible at bottom) */}
+  <div className="mt-3 flex flex-col items-center justify-end space-y-3 pt-2">
+    {showResultButton && (
+      <button
+        onClick={() => navigate("/results")}
+        className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition"
+      >
+        Open Detailed View
+      </button>
             )}
           </div>
         </div>
