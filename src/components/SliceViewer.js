@@ -98,7 +98,7 @@ const SliceViewer = () => {
               width: `${size}px`,
               height: `${size}px`,
               backgroundColor: "#1a1f2e",
-              borderRadius: "50px",
+              borderRadius: "25px",
               overflow: "hidden",
               boxShadow: "0 0 15px rgba(0,0,0,0.3)",
             }}
