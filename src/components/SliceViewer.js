@@ -24,13 +24,14 @@ const SliceViewer = () => {
   const viewerRef = useRef(null);
   const [size, setSize] = useState(0);
 
-  // 🔁 Dynamically adjust square size based on container width
+  // 🔁 Dynamically adjust square size based on container width & height
   useEffect(() => {
     const updateSize = () => {
       if (viewerRef.current) {
         const width = viewerRef.current.offsetWidth;
-        // maintain a square shape that fits well on laptops
-        setSize(Math.min(width * 0.9, 450));
+        const height = viewerRef.current.offsetHeight;
+        // Use both width and height to make best use of space
+        setSize(Math.min(width * 0.95, height * 0.8));
       }
     };
     updateSize();
@@ -44,7 +45,10 @@ const SliceViewer = () => {
   if (showMode === "overlay") slicesToShow = overlaySlices;
 
   return (
-    <div ref={viewerRef} className="flex flex-col h-full w-full text-white overflow-hidden">
+    <div
+      ref={viewerRef}
+      className="flex flex-col h-full w-full text-white overflow-hidden"
+    >
       {slicesToShow.length === 0 ? (
         <div className="text-gray-400 text-center mt-8">
           No slices to preview yet.
@@ -52,7 +56,7 @@ const SliceViewer = () => {
       ) : (
         <div className="flex flex-col justify-between h-full">
           {/* 🔘 Mode Switch */}
-          <div className="mb-2 flex items-center justify-between text-sm px-3">
+          <div className="mb-2 flex items-center justify-between text-sm px-3 flex-wrap">
             <div className="flex flex-wrap gap-3">
               <label>
                 <input
@@ -86,27 +90,28 @@ const SliceViewer = () => {
               </label>
             </div>
 
-            <div>
+            <div className="ml-6 text-gray-300 whitespace-nowrap">
               Slice {currentIndex + 1} of {slicesToShow.length}
             </div>
           </div>
 
-          {/* 🧠 Square Image Preview */}
+          {/* 🧠 Square Image Preview (larger, fits space better) */}
           <div
             className="flex items-center justify-center mx-auto my-2"
             style={{
               width: `${size}px`,
               height: `${size}px`,
               backgroundColor: "#1a1f2e",
-              borderRadius: "25px",
+              borderRadius: "20px",
               overflow: "hidden",
-              boxShadow: "0 0 15px rgba(0,0,0,0.3)",
+              boxShadow: "0 0 20px rgba(0,0,0,0.4)",
+              transition: "width 0.3s ease, height 0.3s ease",
             }}
           >
             <img
               src={resolveUrl(slicesToShow[currentIndex])}
               alt="Slice Preview"
-              className="object-contain w-full h-full"
+              className="object-contain w-[105%] h-[105%] transition-transform duration-300 ease-in-out"
             />
           </div>
 
