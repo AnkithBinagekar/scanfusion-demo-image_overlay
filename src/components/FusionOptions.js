@@ -3,29 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ImageContext } from "../contexts/ImageContext";
 
-//const API_BASE = "http://localhost:8000";
+const API_URL =
+  process.env.REACT_APP_API_URL ||
+  "https://r93u45uwjc.execute-api.ap-south-1.amazonaws.com/";
 
-
-//const API_URL = process.env.REACT_APP_API_URL || "https://kindlessly-interannular-jadiel.ngrok-free.app";
-const API_URL = process.env.REACT_APP_API_URL || "https://r93u45uwjc.execute-api.ap-south-1.amazonaws.com/";
 console.log("🌐 Using API URL:", API_URL);
-// ✅ Load API base URL from environment for EC2
- // const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
-
-// Use environment variable only
-/*const API_URL = process.env.REACT_APP_API_URL;
-if (!API_URL) {
-  console.error("❌ Missing REACT_APP_API_URL! Please set it in Vercel environment variables.");
-}*/
-
-function resolveUrl(p) {
-  if (!p) return "";
-  //if (p.startsWith("http://") || p.startsWith("https://")) return p;
-  if (p.startsWith("https://")) return p;
-  if (p.startsWith("/")) return `${API_URL}${p}`;
-  return `${API_URL}/${p}`;
-}
-
 
 const FusionOptions = () => {
   const {
@@ -41,6 +23,7 @@ const FusionOptions = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
+  // 🧠 Handle Upload Fusion
   const handleFusion = async () => {
     if (!uploadedFile) {
       setStatusMessage("⚠️ Please upload a .nii.gz or .zip file first.");
@@ -57,29 +40,24 @@ const FusionOptions = () => {
     try {
       const response = await axios.post(`${API_URL}/process`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
-        timeout: 300000, // 5 minutes
+        timeout: 300000,
         onUploadProgress: (progressEvent) => {
-          const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          const percent = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
           setProgress(percent);
         },
       });
 
       const data = response.data;
-
-      // ✅ Store slices
-      const inputUrls = data.input || [];
-      const outputUrls = data.output || [];
-      const overlayUrls = data.overlay || [];
-      const gifUrl = data.gif || null;
-
-      setInputSlices(inputUrls);
-      setOutputSlices(outputUrls);
-      setOverlaySlices(overlayUrls);
-      setGifUrl(gifUrl);
+      setInputSlices(data.input || []);
+      setOutputSlices(data.output || []);
+      setOverlaySlices(data.overlay || []);
+      setGifUrl(data.gif || null);
 
       setProgress(100);
       setStatusMessage("✅ Segmentation completed successfully!");
-      setTimeout(() => setStatusMessage(""), 4000); // clear message after 4s
+      setTimeout(() => setStatusMessage(""), 4000);
 
       navigate("/results");
     } catch (error) {
@@ -91,45 +69,48 @@ const FusionOptions = () => {
     }
   };
 
+  // 🧩 Simulated progress for "Run Sample Demo"
+  const runSampleDemo = async () => {
+    setIsLoading(true);
+    setProgress(0);
+    setStatusMessage("⚙️ Running sample demo...");
+
+    // Fake incremental updates for realism
+    let percent = 0;
+    const interval = setInterval(() => {
+      percent += Math.random() * 10;
+      if (percent >= 95) percent = 95;
+      setProgress(Math.floor(percent));
+    }, 400);
+
+    try {
+      const response = await axios.get(`${API_URL}/run-sample`, {
+        timeout: 300000,
+      });
+      clearInterval(interval);
+
+      const data = response.data;
+      setInputSlices(data.input || []);
+      setOutputSlices(data.output || []);
+      setOverlaySlices(data.overlay || []);
+      setGifUrl(data.gif || null);
+
+      setProgress(100);
+      setStatusMessage("✅ Sample demo completed successfully!");
+      setTimeout(() => setStatusMessage(""), 4000);
+    } catch (error) {
+      clearInterval(interval);
+      console.error("Sample demo error:", error);
+      setStatusMessage("❌ Sample demo failed. Try again.");
+      setProgress(0);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    /*<div>
-      <h2 className="text-2xl font-semibold mb-4 text-white">Segmentation Options</h2>
-
-      <div className="mb-4 text-gray-200">
-        <label className="block mb-2">Segmentation Type</label>
-        <label className="block">
-          <input type="radio" name="fusion" defaultChecked /> MRI + CT
-        </label>
-        <label className="block">
-          <input type="radio" name="fusion" /> CT + PET
-        </label>
-        <label className="block">
-          <input type="radio" name="fusion" /> MRI + PET
-        </label>
-      </div>
-
-      <div className="mb-4 text-gray-200">
-        <label className="block mb-2">Noise Reduction</label>
-        <input type="range" min="0" max="100" className="w-full" />
-        <div className="text-sm">50%</div>
-      </div>
-
-      <div className="mb-4 text-gray-200">
-        <label>
-          <input type="checkbox" className="mr-2" /> Enhance Contrast
-        </label>
-      </div>
-
-      <button
-        onClick={handleFusion}
-        className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition w-full"
-        disabled={isLoading}
-      >
-        {isLoading ? "Segmenting..." : "Segment Images"}
-      </button>*/
-    //</div>
-
-  <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
+    <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
+      {/* 🔘 Upload Button */}
       <button
         onClick={handleFusion}
         className={`${
@@ -139,8 +120,18 @@ const FusionOptions = () => {
       >
         {isLoading ? "Segmenting..." : "Segment Images"}
       </button>
-    </div>
 
+      {/* 🧩 Run Sample Demo */}
+      <button
+        onClick={runSampleDemo}
+        className={`${
+          isLoading ? "bg-gray-500" : "bg-green-600 hover:bg-green-700"
+        } text-white px-8 py-3 rounded-lg font-semibold transition w-3/4`}
+        disabled={isLoading}
+      >
+        {isLoading ? "Processing..." : "Run Sample Demo"}
+      </button>
+    </div>
   );
 };
 
