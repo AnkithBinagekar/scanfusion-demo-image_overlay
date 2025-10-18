@@ -162,7 +162,7 @@ const FusionPage = () => {
             )}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
   <div className="space-y-6">
-    <RunSampleDemo />
+  
     <FusionOptions />
     <ProgressBar /> {/* ✅ shared progress bar here */}
   </div>
