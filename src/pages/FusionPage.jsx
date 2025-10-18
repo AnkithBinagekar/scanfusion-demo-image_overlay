@@ -6,7 +6,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ImageContext } from "../contexts/ImageContext";
 
-import ProgressBar from "../components/ProgressBar";
 const API_URL = process.env.REACT_APP_API_URL;
 
 const FusionPage = () => {
@@ -160,18 +159,6 @@ const FusionPage = () => {
                  Open Detailed View
               </button>
             )}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-  <div className="space-y-6">
-  
-    <FusionOptions />
-    <ProgressBar /> {/* ✅ shared progress bar here */}
-  </div>
-
-  <div className="col-span-2">
-    <SliceViewer />
-  </div>
-</div>
-
           </div>
         </div>
       </div>
