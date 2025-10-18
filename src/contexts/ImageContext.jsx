@@ -18,6 +18,7 @@ export const ImageProvider = ({ children }) => {
   const [progress, setProgress] = useState(0);
 const [statusMessage, setStatusMessage] = useState("");
 
+const [showOverlay, setShowOverlay] = useState(false);
 
   // ✅ New effect: automatically toggle "Detailed View" button
   useEffect(() => {
@@ -89,6 +90,8 @@ const [statusMessage, setStatusMessage] = useState("");
         setProgress,
         statusMessage,
         setStatusMessage,
+         showOverlay,
+    setShowOverlay,
       }}
     >
       {children}

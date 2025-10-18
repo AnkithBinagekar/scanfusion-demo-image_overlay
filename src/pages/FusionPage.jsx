@@ -17,6 +17,7 @@ const FusionPage = () => {
     setShowResultButton,
     setProgress,
     setStatusMessage, // ✅ added from context
+    setShowOverlay, // ✅ new
   } = useContext(ImageContext);
 
   const [isDemoLoading, setIsDemoLoading] = useState(false);
@@ -30,6 +31,7 @@ const FusionPage = () => {
   const handleRunDemo = async () => {
     try {
       setIsDemoLoading(true);
+      setShowOverlay(true);
       setProgress(0);
       setStatusMessage(`⚙️ Running ${selectedDemo} demo...`);
 
@@ -49,7 +51,8 @@ const FusionPage = () => {
       if (response.data.error) {
         setProgress(0);
         setStatusMessage(`❌ ${response.data.error}`);
-        setIsDemoLoading(false);
+        //setIsDemoLoading(false);
+        setTimeout(() => setShowOverlay(false), 2000);
         return;
       }
 
@@ -58,11 +61,12 @@ const FusionPage = () => {
 
       setProgress(100);
       setStatusMessage(`✅ ${selectedDemo} demo completed successfully!`);
-      setTimeout(() => setStatusMessage(""), 4000);
+      setTimeout(() => setShowOverlay(false), 2000);
     } catch (error) {
       console.error("❌ Demo run failed:", error);
       setProgress(0);
       setStatusMessage("❌ Demo failed. Check console for details.");
+   setTimeout(() => setShowOverlay(false), 2000);
     } finally {
       setIsDemoLoading(false);
     }
@@ -188,8 +192,11 @@ const FusionPage = () => {
           </div>
         </div>
       </div>
+          {/* ✅ Overlay always mounted */}
+      <ProgressOverlay />
     </div>
   );
 };
 
 export default FusionPage;
+s

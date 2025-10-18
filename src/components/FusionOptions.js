@@ -36,6 +36,7 @@ const FusionOptions = () => {
     //setGifUrl,
  setProgress,
     setStatusMessage,
+    setShowOverlay,
   } = useContext(ImageContext);
 
   const navigate = useNavigate();
@@ -50,8 +51,10 @@ const FusionOptions = () => {
     const formData = new FormData();
     formData.append("file", uploadedFile);
 
+
     setIsLoading(true);
- setProgress(1);
+    setShowOverlay(true);
+    setProgress(0);
     setStatusMessage("⏳ Uploading and processing...");
 
     /*try {
@@ -106,11 +109,12 @@ const FusionOptions = () => {
       setProgress(100);
       setStatusMessage("✅ Segmentation completed successfully!");
       // keep message visible for a while, then clear
-      setTimeout(() => setStatusMessage(""), 4000);
+      setTimeout(() => setShowOverlay(false), 2000);
     } catch (err) {
       console.error("Fusion error:", err);
       setProgress(0);
       setStatusMessage("❌ Fusion failed. Check console or backend logs.");
+    setTimeout(() => setShowOverlay(false), 2000);
     } finally {
       setIsLoading(false);
     }
