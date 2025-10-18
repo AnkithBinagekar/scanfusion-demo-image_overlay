@@ -6,6 +6,8 @@ import ProgressBar from "../components/ProgressBar"; // ✅ added import
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ImageContext } from "../contexts/ImageContext";
+import ProgressOverlay from "../components/ProgressOverlay";
+
 
 const API_URL = process.env.REACT_APP_API_URL;
 
