@@ -103,11 +103,11 @@ const SliceViewer = () => {
               boxShadow: "0 0 15px rgba(0,0,0,0.3)",
             }}
           >
-            <img
-              src={resolveUrl(slicesToShow[currentIndex])}
-              alt="Slice Preview"
-              className="object-contain w-full h-full"
-            />
+           <img
+      src={resolveUrl(slicesToShow[currentIndex])}
+      alt="Slice Preview"
+      className="absolute inset-0 w-full h-full object-contain rounded shadow"
+    />
           </div>
 
           {/* 🎚️ Slider Section */}
