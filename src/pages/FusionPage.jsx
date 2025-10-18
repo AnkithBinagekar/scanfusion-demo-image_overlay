@@ -163,25 +163,21 @@ const FusionPage = () => {
         </div>
 
         {/* 🖼️ SLICE VIEWER */}
-       {/* 🖼️ SLICE VIEWER */}
-<div
-  className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col overflow-hidden justify-center"
-  style={{ minHeight: "calc(100vh - 100px)", height: "auto" }}
->
-
+        <div
+          className="bg-gray-800 p-6 rounded-lg shadow-md flex flex-col overflow-hidden"
+          style={{ height: "calc(100vh - 160px)" }}
+        >
           {/* Header */}
           <h2 className="text-lg font-semibold mb-3 text-center">
             Slice Viewer
           </h2>
+{/* Image Viewer Area */}
+<div className="flex-1 flex items-center justify-center px-4 py-2">
+  <div className="w-full h-full flex justify-center items-center">
+    <SliceViewer />
+  </div>
+</div>
 
-          {/* Image Viewer Area */}
-          <div className="flex-1 flex flex-col items-center justify-center overflow-hidden px-2">
-            <div className="w-full flex justify-center items-center overflow-hidden">
-              <div className="max-w-full max-h-full flex justify-center items-center">
-                <SliceViewer />
-              </div>
-            </div>
-          </div>
 
           {/* Slider + Button (stay inside box) */}
           <div className="mt-4 flex flex-col items-center justify-center space-y-3 pb-2">
