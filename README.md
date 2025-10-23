@@ -36,22 +36,23 @@ Segmentation-Demo demonstrates a complete **end-to-end AI medical imaging pipeli
 scanfusion-demo/
 ├── scanfusion-frontend/ # React (Vercel)
 │ ├── src/
-│ │ ├── pages/FusionPage.jsx
-│ │ ├── pages/FusionResult.jsx
-│ │ ├── context/ImageContext.jsx
-│ │ └── components/
-│ └── .env (REACT_APP_API_URL)
-│
-└── scanfusion-backend/ # FastAPI (EC2)
-├── app/
-│ ├── main.py
-│ ├── processor.py
-│ ├── utils.py
-│ ├── static/ # Output images (served publicly)
-│ ├── uploads/ # Uploaded files
-│ └── sample_data/ # Demo file (sample .nii.gz)
-├── requirements.txt
-└── model.pt # Trained MONAI SegResNet model
+| │ │ ├── pages/FusionPage.jsx
+| │ │ ├── pages/FusionResult.jsx
+| │ │ ├── context/ImageContext.jsx
+| │ │ └── components/
+| │ └── .env (REACT_APP_API_URL)
+| │
+| └── scanfusion-backend/ # FastAPI (EC2)
+| ├── app/
+| │ ├── main.py
+| │ ├── processor.py
+| │ ├── utils.py
+| │ ├── static/ # Output images (served publicly)
+| │ ├── uploads/ # Uploaded files
+| │ └── sample_data/ # Demo file (sample .nii.gz)
+| ├── requirements.txt
+| └── model.pt # Trained MONAI SegResNet model
+| 
 
 
 
